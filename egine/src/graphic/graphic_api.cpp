@@ -1,10 +1,11 @@
 #include "graphic_api.h"
 #include "shaderProgram.h"
 #include "render/material.h"
+#include "render/mesh.h"
 
 #include <spdlog/spdlog.h>
 
-std::shared_ptr<engine::ShaderProgram> engine::GraphicApi::CreateShaderProgram(const std::string& vertexShaderSource, const std::string& fragmentShaderSource)
+std::shared_ptr<engine::ShaderProgram> engine::GraphicAPI::CreateShaderProgram(const std::string& vertexShaderSource, const std::string& fragmentShaderSource)
 {
     // Compile vertex shader
     GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -58,7 +59,7 @@ std::shared_ptr<engine::ShaderProgram> engine::GraphicApi::CreateShaderProgram(c
     return std::make_shared<ShaderProgram>(shaderProgramID);
 }
 
-void engine::GraphicApi::BindShaderProgram(engine::ShaderProgram* shaderProgram)
+void engine::GraphicAPI::BindShaderProgram(engine::ShaderProgram* shaderProgram)
 {
     if (!shaderProgram) {
         spdlog::error("shaderProgram is nullptr,can not bind SahderProgram");
@@ -66,7 +67,7 @@ void engine::GraphicApi::BindShaderProgram(engine::ShaderProgram* shaderProgram)
     shaderProgram->Bind();
 }
 
-void engine::GraphicApi::BindMaterial(engine::Material* material)
+void engine::GraphicAPI::BindMaterial(engine::Material* material)
 {
     if (!material) {
         spdlog::error("material is nullptr,can not bind material");
@@ -74,7 +75,7 @@ void engine::GraphicApi::BindMaterial(engine::Material* material)
     material->Bind();
 }
 
-GLuint engine::GraphicApi::CreateVBO(const std::vector<float> vertices)
+GLuint engine::GraphicAPI::CreateVBO(const std::vector<float>& vertices)
 {
     GLuint VBO =0;
     glGenBuffers(1, &VBO);
@@ -84,12 +85,40 @@ GLuint engine::GraphicApi::CreateVBO(const std::vector<float> vertices)
     return VBO;
 }
 
-GLuint engine::GraphicApi::CreateEBO(const std::vector<uint32_t> indices)
+GLuint engine::GraphicAPI::CreateEBO(const std::vector<uint32_t>& indices)
 {
     GLuint EBO=0;
     glGenBuffers(1, &EBO);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ARRAY_BUFFER, indices.size() * sizeof(uint32_t), indices.data(), GL_STATIC_DRAW);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(uint32_t), indices.data(), GL_STATIC_DRAW);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     return EBO;
+}
+
+void engine::GraphicAPI::SetClearCorlor(float r, float g, float b, float a)
+{
+    glClearColor(r, g, b, a);
+}
+
+void engine::GraphicAPI::ClearBuffer()
+{
+    glClear(GL_COLOR_BUFFER_BIT);
+}
+
+void engine::GraphicAPI::BindMesh(Mesh* mesh)
+{
+    if (!mesh) {
+        spdlog::error("mesh is nullptr, graphic api can not bind");
+
+    }
+    mesh->Bind();
+}
+
+void engine::GraphicAPI::DrawMesh(Mesh* mesh)
+{
+    if (!mesh) {
+        spdlog::error("mesh is nullptr, graphic api can not draw");
+
+    }
+    mesh->Draw();
 }

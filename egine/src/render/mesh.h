@@ -7,7 +7,7 @@ namespace engine {
 
 	class Mesh {
 	public:
-		Mesh(const VertexLayout& vertexLayout, const std::vector<float>& vertices, const std::vector<uint32_t> indices);
+		Mesh(const VertexLayout& vertexLayout, const std::vector<float>& vertices, const std::vector<uint32_t>& indices);
 		Mesh(const VertexLayout& vertexLayout, const std::vector<float>& vertices);
 		Mesh(const Mesh&) = delete;
 		Mesh& operator=(const Mesh&) = delete;
@@ -15,14 +15,15 @@ namespace engine {
 		void Bind();
 		void Draw();
 
+		void logInfo();
 	private:
 		VertexLayout m_vertexLayout;
 
-		GLuint m_VAO;
-		GLuint m_VBO;
-		GLuint m_EBO;
+		GLuint m_VAO=0;
+		GLuint m_VBO=0;
+		GLuint m_EBO=0;
 
-		size_t m_vertexCount = 0;
-		size_t m_indexCount = 0;
+		uint32_t m_vertexCount = 0;
+		uint32_t m_indexCount = 0;
 	};
 }

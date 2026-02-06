@@ -17,6 +17,11 @@ namespace engine {
 
 	struct VertexLayout {
 		std::vector<VertexElemnet> elements;
-		GLsizei stride;
+		GLsizei stride = 0;
+		
+		VertexLayout() = default;
+		VertexLayout(const std::vector<VertexElemnet>& elements,GLsizei stride);
+
+		void logInfo();
 	};
 }

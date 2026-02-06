@@ -5,4 +5,6 @@
 #include "input/input_manager.h"
 #include "graphic/graphic_api.h"
 #include "graphic/shaderProgram.h"
+#include "graphic/vertex_layout.h"
 #include "render/material.h"
+#include "render/mesh.h"

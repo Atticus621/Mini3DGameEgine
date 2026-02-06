@@ -36,6 +36,12 @@
     <ClCompile Include="src\render\mesh.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\graphic\vertex_layout.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\render\render_queue.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\application.h">
@@ -63,6 +69,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="src\graphic\vertex_layout.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\render\render_queue.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

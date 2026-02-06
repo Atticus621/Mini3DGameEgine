@@ -198,9 +198,11 @@
     <ClCompile Include="src\engine.cpp" />
     <ClCompile Include="src\graphic\graphic_api.cpp" />
     <ClCompile Include="src\graphic\shaderProgram.cpp" />
+    <ClCompile Include="src\graphic\vertex_layout.cpp" />
     <ClCompile Include="src\input\input_manager.cpp" />
     <ClCompile Include="src\render\material.cpp" />
     <ClCompile Include="src\render\mesh.cpp" />
+    <ClCompile Include="src\render\render_queue.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\application.h" />
@@ -212,6 +214,7 @@
     <ClInclude Include="src\input\input_manager.h" />
     <ClInclude Include="src\render\material.h" />
     <ClInclude Include="src\render\mesh.h" />
+    <ClInclude Include="src\render\render_queue.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -5,6 +5,7 @@
 #include <spdlog/spdlog.h>
 #include "input/input_manager.h"
 #include "graphic/graphic_api.h"
+#include "render/render_queue.h"
 
 struct GLFWwindow;
 namespace engine {
@@ -26,14 +27,17 @@ namespace engine {
 		Application* GetAplication();
 		void SetApplication(Application* application);
 		InputManager& GetInputManager();
-		GraphicApi& GetGraphicAPI();
+		GraphicAPI& GetGraphicAPI();
+		RenderQueue& GetRenderQueue();
 	private:
 		std::unique_ptr<Application> m_application;
 		std::chrono::steady_clock::time_point m_lastTimePoint;
 
 		GLFWwindow* m_window = nullptr;
 		InputManager m_inputManager;
-		GraphicApi m_graphicAPI;
+		GraphicAPI m_graphicAPI;
+		RenderQueue m_renderQueue;
+
 	private:
 		static void glfwErrorCallBack(int error, const char* description)
 		{

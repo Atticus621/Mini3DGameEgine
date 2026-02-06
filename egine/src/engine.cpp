@@ -80,7 +80,13 @@ void engine::Engine::Run()
 
 		m_application->Update(delta);
 
+		m_graphicAPI.SetClearCorlor(1.0f, 1.0f, 1.0f, 1.0f);
+		m_graphicAPI.ClearBuffer();
+
+		m_renderQueue.Draw(m_graphicAPI);
+
 		glfwSwapBuffers(m_window);
+
 	}
 }
 
@@ -100,6 +106,7 @@ engine::Application* engine::Engine::GetAplication()
 
 void engine::Engine::SetApplication(Application* application)
 {
+
 	m_application.reset(application);
 }
 
@@ -108,8 +115,13 @@ engine::InputManager& engine::Engine::GetInputManager()
 	return m_inputManager;
 }
 
-engine::GraphicApi& engine::Engine::GetGraphicAPI()
+engine::GraphicAPI& engine::Engine::GetGraphicAPI()
 {
 	return m_graphicAPI;
+}
+
+engine::RenderQueue& engine::Engine::GetRenderQueue()
+{
+	return m_renderQueue;
 }
 
