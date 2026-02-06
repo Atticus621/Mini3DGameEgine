@@ -1,0 +1,9 @@
+<Solution>
+  <Configurations>
+    <Platform Name="ARM64" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="egine/egine.vcxproj" Id="ec71b4c7-8b31-469b-be2e-325791c46d04" />
+  <Project Path="test/test.vcxproj" Id="d9d92d20-9982-4d1a-a8cf-2efb3a240bd1" />
+</Solution>
