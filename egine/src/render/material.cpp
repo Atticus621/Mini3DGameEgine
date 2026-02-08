@@ -13,10 +13,18 @@ void engine::Material::SetShaderProgram(std::shared_ptr<engine::ShaderProgram>& 
 
 void engine::Material::SetParam(const std::string& name, float val)
 {
-	if (m_params.find(name) == m_params.end()) {
+	if (m_f1Params.find(name) == m_f1Params.end()) {
 		spdlog::info("{}  exists,will reset{}", name, val);
 	}
-	m_params[name] = val;
+	m_f1Params[name] = val;
+}
+
+void engine::Material::SetParam(const std::string& name, float v0, float v1)
+{
+	if (m_f2Params.find(name) == m_f2Params.end()) {
+		spdlog::info("{}  exists,will reset{},{}", name, v0,v1);
+	}
+	m_f2Params.at(name) = { v0,v1 };
 }
 
 void engine::Material::Bind()
@@ -27,8 +35,11 @@ void engine::Material::Bind()
 	}
 	m_shaderProgram->Bind();
 
-	for (auto& param : m_params) {
+	for (auto& param : m_f1Params) {
 		m_shaderProgram->SetUniform(param.first, param.second);
+	}
+	for (auto& param : m_f2Params) {
+		m_shaderProgram->SetUniform(param.first, param.second.first,param.second.second);
 	}
 }
 

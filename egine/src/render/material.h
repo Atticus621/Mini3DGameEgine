@@ -9,10 +9,13 @@ namespace engine {
 	public:
 		void SetShaderProgram(std::shared_ptr<ShaderProgram>& shaderProgram);
 		void SetParam(const std::string& name, float val);
+		void SetParam(const std::string& name, float v0, float v1);
+
 		void Bind();
 		void Unbind();
 	private:
 		std::shared_ptr<ShaderProgram> m_shaderProgram;
-		std::unordered_map<std::string, float> m_params;
+		std::unordered_map<std::string, float> m_f1Params;
+		std::unordered_map<std::string, std::pair<float, float>> m_f2Params;
 	};
 }

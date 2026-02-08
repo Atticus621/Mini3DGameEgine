@@ -61,6 +61,26 @@ void engine::ShaderProgram::SetUniform(const std::string& name, float val)
 	glUniform1f(location, val); 
 }
 
+void engine::ShaderProgram::SetUniform(const std::string& name, float v0, float v1)
+{
+	auto it = m_uniformLocationCache.find(name);
+	if (it != m_uniformLocationCache.end()) {
+		glUniform2f(it->second, v0,v1);
+	}
+	else
+	{
+		GLuint location = glGetUniformLocation(m_shaderProgramId, name.c_str());
+		if (location == GL_INVALID_INDEX) {
+			spdlog::error(" uniform {} can not find ", name);
+		}
+		else {
+			m_uniformLocationCache.at(name) = location;
+		}
+		glUniform2f(it->second, v0,v1);
+
+	}
+}
+
 void engine::ShaderProgram::UnBind()
 {
 	glUseProgram(0);
