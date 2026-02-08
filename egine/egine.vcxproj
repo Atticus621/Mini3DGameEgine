@@ -203,6 +203,8 @@
     <ClCompile Include="src\render\material.cpp" />
     <ClCompile Include="src\render\mesh.cpp" />
     <ClCompile Include="src\render\render_queue.cpp" />
+    <ClCompile Include="src\scene\game_object.cpp" />
+    <ClCompile Include="src\scene\scene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\application.h" />
@@ -215,6 +217,8 @@
     <ClInclude Include="src\render\material.h" />
     <ClInclude Include="src\render\mesh.h" />
     <ClInclude Include="src\render\render_queue.h" />
+    <ClInclude Include="src\scene\game_object.h" />
+    <ClInclude Include="src\scene\scene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
