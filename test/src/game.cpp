@@ -5,6 +5,7 @@
 #include <GLES3/gl3.h>
 #include <string>
 
+
 bool Game::Init()
 {
     // Shader sources
@@ -13,10 +14,12 @@ bool Game::Init()
     layout (location = 1) in vec3 color;
 
     out vec3 vColor;
+    
+    uniform vec2 offset;
 
     void main() {
         vColor=color;
-        gl_Position = vec4(position,1.0);
+        gl_Position = vec4(position.x+offset.x,position.y+offset.y,position.z,1.0);
     }
 )";
 
@@ -71,9 +74,20 @@ bool Game::Init()
 void Game::Update(float delta)
 {
 	auto& input = engine::Engine::GetInstance().GetInputManager();
-	if (input.GetKeyPressed(GLFW_KEY_Q)) {
-		spdlog::info("pressed Q");
+	if (input.GetKeyPressed(GLFW_KEY_A)) {
+        m_offsetX -= 0.01;
 	}
+    if (input.GetKeyPressed(GLFW_KEY_D)) {
+        m_offsetX += 0.01;
+    }
+    if (input.GetKeyPressed(GLFW_KEY_W)) {
+        m_offsetY += 0.01;
+    }
+    if (input.GetKeyPressed(GLFW_KEY_S)) {
+        m_offsetY -= 0.01;
+    }
+
+    m_material.SetParam("offset", m_offsetX, m_offsetY);
 
     engine::RenderCommand rendercommand;
     rendercommand.material = &m_material;

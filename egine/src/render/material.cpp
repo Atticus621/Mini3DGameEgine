@@ -21,10 +21,8 @@ void engine::Material::SetParam(const std::string& name, float val)
 
 void engine::Material::SetParam(const std::string& name, float v0, float v1)
 {
-	if (m_f2Params.find(name) == m_f2Params.end()) {
-		spdlog::info("{}  exists,will reset{},{}", name, v0,v1);
-	}
-	m_f2Params.at(name) = { v0,v1 };
+
+	m_f2Params[name] = { v0,v1 };
 }
 
 void engine::Material::Bind()

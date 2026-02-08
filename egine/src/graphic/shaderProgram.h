@@ -14,7 +14,7 @@ namespace engine {
 		~ShaderProgram();
 
 		void Bind();
-		GLuint GetUniforLocation(const std::string& name);
+		GLint GetUniforLocation(const std::string& name);
 		GLuint GetShaderProgramID();
 		void SetUniform(const std::string& name, float val);
 		void SetUniform(const std::string& name, float v0, float v1);

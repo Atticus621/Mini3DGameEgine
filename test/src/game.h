@@ -12,4 +12,6 @@ public:
 private:
 	engine::Material m_material;
 	std::unique_ptr<engine::Mesh> m_mesh;
+	float m_offsetX = 0;
+	float m_offsetY = 0;
 };
