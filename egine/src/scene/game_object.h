@@ -4,9 +4,10 @@
 #include <memory>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-
+#include "scene/component.h"
 
 namespace engine {
+
 
 	class GameObject {
 	public:
@@ -19,6 +20,7 @@ namespace engine {
 		void SetPosition(const glm::vec3& position);
 		void SetRotation(const glm::vec3& rotation);
 		void SetScale(const glm::vec3& scale);
+		void AddComponent(Component* component);
 
 		const std::string& GetName()const;
 		GameObject* GetParent();
@@ -37,6 +39,7 @@ namespace engine {
 		std::string m_name;
 		GameObject* m_parent = nullptr;
 		std::vector<std::unique_ptr<GameObject>> m_children;
+		std::vector<std::unique_ptr<Component>> m_components;
 		bool m_isAlive = true;
 		friend class Scene;
 	private:

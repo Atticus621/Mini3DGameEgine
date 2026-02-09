@@ -8,8 +8,4 @@ public:
 	TestObject();
 	void Update(float delta)override;
 
-private:
-	engine::Material m_material;
-	std::shared_ptr<engine::Mesh> m_mesh;
-
 };

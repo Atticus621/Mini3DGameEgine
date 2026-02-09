@@ -6,7 +6,6 @@
 #include <string>
 #include "test_object.h"
 
-
 void TestObject::Update(float delta)
 {
     engine::GameObject::Update(delta);
@@ -28,13 +27,6 @@ void TestObject::Update(float delta)
 
 	SetPosition(position);
 
-    engine::RenderCommand rendercommand;
-    rendercommand.material = &m_material;
-    rendercommand.mesh = m_mesh.get();
-	rendercommand.modelMat = GetWorldTransform();
-
-    auto& renderQueue = engine::Engine::GetInstance().GetRenderQueue();
-    renderQueue.Submit(rendercommand);
 
 }
 
@@ -75,7 +67,8 @@ TestObject::TestObject()
 
     spdlog::info("create shaderProgram :{}", static_cast<unsigned int>(shaderProgram->GetShaderProgramID()));
 
-    m_material.SetShaderProgram(shaderProgram);
+	auto material = std::make_shared<engine::Material>();
+    material->SetShaderProgram(shaderProgram);
 
     std::vector<float> vertices{
          0.5f, 0.5f, 0.0f,  1.0f, 0.0f, 0.0f,
@@ -98,8 +91,7 @@ TestObject::TestObject()
 
     vertexLayout.logInfo();
 
-    m_mesh = std::make_shared<engine::Mesh>(vertexLayout, vertices, indices);
-
-
-    m_mesh->logInfo();
+    auto mesh = std::make_shared<engine::Mesh>(vertexLayout, vertices, indices);
+    auto ptr = new engine::MeshComponent( material,mesh);
+	AddComponent(ptr);
 }

@@ -2,6 +2,9 @@
 
 void engine::GameObject::Update(float delta)
 {
+    for (auto& component : m_components) {
+		component->Update(delta);
+    }
     for(auto& child:m_children) {
 		if (child->IsAlive()) {
            child->Update(delta);
@@ -37,6 +40,12 @@ void engine::GameObject::SetRotation(const glm::vec3& rotation)
 void engine::GameObject::SetScale(const glm::vec3& scale)
 {
 	m_scale = scale;
+}
+
+void engine::GameObject::AddComponent(engine::Component* component)
+{
+	m_components.emplace_back(component);
+	component->m_owner = this;
 }
 
 bool engine::GameObject::IsAlive() const
