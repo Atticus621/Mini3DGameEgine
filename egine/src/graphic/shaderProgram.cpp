@@ -1,5 +1,6 @@
 #include "shaderProgram.h"
 #include "spdlog/spdlog.h"
+#include "glm/gtc/type_ptr.hpp"
 
 engine::ShaderProgram::ShaderProgram(GLuint shaderProgramId):m_shaderProgramId(shaderProgramId)
 {
@@ -53,6 +54,12 @@ void engine::ShaderProgram::SetUniform(const std::string& name, float v0, float 
 {
 	GLint location = GetUniforLocation(name);
 	glUniform2f(location, v0,v1);
+}
+
+void engine::ShaderProgram::SetUniform(const std::string& name, const glm::mat4& mat4)
+{
+	GLint location = GetUniforLocation(name);
+	glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(mat4));
 }
 
 void engine::ShaderProgram::UnBind()

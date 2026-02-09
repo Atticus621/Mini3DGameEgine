@@ -11,26 +11,27 @@ void TestObject::Update(float delta)
 {
     engine::GameObject::Update(delta);
 
+	auto position = GetPosition();
     auto& input = engine::Engine::GetInstance().GetInputManager();
     if (input.GetKeyPressed(GLFW_KEY_A)) {
-        m_offsetX -= 0.01;
+		position.x -= 0.01;
     }
     if (input.GetKeyPressed(GLFW_KEY_D)) {
-        m_offsetX += 0.01;
+		position.x += 0.01;
     }
     if (input.GetKeyPressed(GLFW_KEY_W)) {
-        m_offsetY += 0.01;
+		position.y += 0.01;
     }
     if (input.GetKeyPressed(GLFW_KEY_S)) {
-        m_offsetY -= 0.01;
+		position.y -= 0.01;
     }
 
-    m_material.SetParam("offset", m_offsetX, m_offsetY);
+	SetPosition(position);
 
     engine::RenderCommand rendercommand;
     rendercommand.material = &m_material;
     rendercommand.mesh = m_mesh.get();
-
+	rendercommand.modelMat = GetWorldTransform();
 
     auto& renderQueue = engine::Engine::GetInstance().GetRenderQueue();
     renderQueue.Submit(rendercommand);
@@ -49,11 +50,11 @@ TestObject::TestObject()
 
     out vec3 vColor;
     
-    uniform vec2 offset;
+    uniform mat4 uModel;
 
     void main() {
         vColor=color;
-        gl_Position = vec4(position.x+offset.x,position.y+offset.y,position.z,1.0);
+        gl_Position = uModel*vec4(position,1.0);
     }
 )";
 

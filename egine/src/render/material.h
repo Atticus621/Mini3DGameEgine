@@ -11,6 +11,7 @@ namespace engine {
 		void SetParam(const std::string& name, float val);
 		void SetParam(const std::string& name, float v0, float v1);
 
+		ShaderProgram* GetShaderProgram()const;
 		void Bind();
 		void Unbind();
 	private:

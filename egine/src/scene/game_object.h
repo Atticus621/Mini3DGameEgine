@@ -2,6 +2,9 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
 
 namespace engine {
 
@@ -10,11 +13,22 @@ namespace engine {
 		virtual ~GameObject() =default;
 
 		virtual void Update(float delta);
-		const std::string& GetName()const;
-		void SetName(const std::string& name);
-		bool IsAlive()const;
+
 		void MarkForDestory();
+		void SetName(const std::string& name);
+		void SetPosition(const glm::vec3& position);
+		void SetRotation(const glm::vec3& rotation);
+		void SetScale(const glm::vec3& scale);
+
+		const std::string& GetName()const;
 		GameObject* GetParent();
+		glm::vec3 GetPosition()const;
+		glm::vec3 GetRotation()const;
+		glm::vec3 GetScale()const;
+		bool IsAlive()const;
+
+		glm::mat4 GetLocalTransform()const;
+		glm::mat4 GetWorldTransform()const;
 
 	protected:
 		GameObject() = default;
@@ -25,5 +39,9 @@ namespace engine {
 		std::vector<std::unique_ptr<GameObject>> m_children;
 		bool m_isAlive = true;
 		friend class Scene;
+	private:
+		glm::vec3 m_position{ 0.0f,0.0f,0.0f };
+		glm::vec3 m_rotation{ 0.0f,0.0f,0.0f };
+		glm::vec3 m_scale{ 1.0f,1.0f,1.0f };
 	};
 }

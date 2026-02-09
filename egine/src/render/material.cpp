@@ -25,6 +25,11 @@ void engine::Material::SetParam(const std::string& name, float v0, float v1)
 	m_f2Params[name] = { v0,v1 };
 }
 
+engine::ShaderProgram* engine::Material::GetShaderProgram() const
+{
+	return m_shaderProgram.get();
+}
+
 void engine::Material::Bind()
 {
 	if (!m_shaderProgram) {

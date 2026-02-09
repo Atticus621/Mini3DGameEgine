@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-
+#include <glm/mat4x4.hpp>
 
 namespace engine {
 
@@ -12,6 +12,7 @@ namespace engine {
 	{
 		Mesh* mesh{ nullptr };
 		Material* material{ nullptr };
+		glm::mat4 modelMat{ 1.0f };
 	};
 
 	class RenderQueue {
