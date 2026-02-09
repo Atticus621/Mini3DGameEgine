@@ -7,7 +7,7 @@ namespace engine {
 
 	class GameObject {
 	public:
-		virtual ~GameObject();
+		virtual ~GameObject() =default;
 
 		virtual void Update(float delta);
 		const std::string& GetName()const;

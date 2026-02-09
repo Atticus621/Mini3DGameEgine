@@ -19,7 +19,7 @@ namespace engine {
 		template<typename T, typename = typename std::enable_if_t<std::is_base_of_v<GameObject, T>>>
 		T* CreateGameObject(const std::string& name = "GameObject",GameObject* parent=nullptr)
 		{
-			auto gameObject = new GameObject();
+			auto gameObject = new T();
 			gameObject->SetName(name);
 			SetParent(gameObject, parent);
 			return gameObject;

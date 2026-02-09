@@ -8,3 +8,5 @@
 #include "graphic/vertex_layout.h"
 #include "render/material.h"
 #include "render/mesh.h"
+#include "scene/game_object.h"
+#include "scene/scene.h"

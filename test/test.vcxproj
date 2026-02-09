@@ -29,9 +29,11 @@
   <ItemGroup>
     <ClCompile Include="src\game.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\test_object.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\game.h" />
+    <ClInclude Include="src\test_object.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\egine\egine.vcxproj">
