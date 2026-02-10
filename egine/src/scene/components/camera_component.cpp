@@ -9,7 +9,15 @@ void engine::CameraComponent::Update(float delta)
 
 glm::mat4 engine::CameraComponent::GetViewMatrix() const
 {
-	return(glm::inverse(GetOwner()->GetWorldTransform()));
+	glm::mat4 viewMat = glm::mat4(1.0f);
+	viewMat = glm::mat4_cast(GetOwner()->GetRotation());
+	viewMat = glm::translate(viewMat,GetOwner()->GetPosition());
+
+	if (m_owner->GetParent())
+	{
+		viewMat = GetOwner()->GetParent()->GetWorldTransform() * viewMat;
+	}
+	return(glm::inverse(viewMat));
 }
 
 glm::mat4 engine::CameraComponent::GetProjectionMatrix(float aspect) const

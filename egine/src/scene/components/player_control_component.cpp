@@ -20,25 +20,27 @@ void engine::PlayerControlComponent::Update(float delta)
 		auto mouseOldPos = input.GetMouseOldPosition();
 		auto mouseCurrentPos = input.GetMouseCurrentPosition();
 
-		auto deltaX = mouseCurrentPos.x - mouseOldPos.x;
-		auto deltaY = mouseCurrentPos.y - mouseOldPos.y;
-		
-		rotation.y += deltaX * m_sensitivity * delta;
-		rotation.x += -deltaY * m_sensitivity * delta;
+		float deltaX = mouseCurrentPos.x - mouseOldPos.x;
+		float deltaY = mouseCurrentPos.y - mouseOldPos.y;
+
+		float angleX = deltaY * m_sensitivity*delta;
+		float angleY = -deltaX * m_sensitivity * delta;
+
+		glm::quat deltaRotationY = glm::angleAxis(angleY, glm::vec3(0.0f, 1.0f, 0.0f));
+		glm::vec3 right = rotation * glm::vec3(1.0f, 0.0f, 0.0f);
+		glm::quat deltaRotationX = glm::angleAxis(angleX, right);
+
+		rotation = glm::normalize(deltaRotationY * rotation * deltaRotationX);
+
 
 		spdlog::info(" rotationX: {}, rotationY: {}", rotation.x, rotation.y);
 		m_owner->SetRotation(rotation);
 	}
 
-	glm::mat4 rotationMat = glm::mat4(1.0f);
 
-	rotationMat = glm::rotate(rotationMat, rotation.y, glm::vec3(0.0f, 1.0f, 0.0f));
-	rotationMat = glm::rotate(rotationMat, rotation.x, glm::vec3(1.0f, 0.0f, 0.0f));
-	rotationMat = glm::rotate(rotationMat, rotation.z, glm::vec3(0.0f, 0.0f, 1.0f));
-
-	glm::vec3 forward = glm::normalize(glm::vec3(rotationMat * glm::vec4(0.0f, 0.0f, -1.0f, 0.0f)));
-	glm::vec3 right = glm::normalize(glm::vec3(rotationMat * glm::vec4(1.0f, 0.0f, 0.0f, 0.0f)));
-	glm::vec3 up = glm::normalize(glm::vec3(rotationMat * glm::vec4(0.0f, 1.0f, 0.0f, 0.0f)));
+	glm::vec3 forward = rotation * glm::vec3(0.0f, 0.0f, -1.0f);
+	glm::vec3 right = rotation * glm::vec3(1.0f, 0.0f, 0.0f);
+	glm::vec3 up = rotation * glm::vec3(0.0f, 1.0f, 0.0f);
 
 	if (input.GetKeyPressed(GLFW_KEY_W)) {
 		position += forward* m_moveSpeed * delta;

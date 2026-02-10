@@ -83,7 +83,13 @@ bool Game::Init()
         1,6,2,
         //right face
         0,7,4,
-        0,3,7
+        0,3,7,
+		//top face
+		0,4,5,
+		0,5,1,
+		//bottom face
+		2,6,7,
+		2,7,3,
     };
 
     engine::VertexLayout vertexLayout;
@@ -101,7 +107,6 @@ bool Game::Init()
     auto cubeA = m_currentScene->CreateGameObject("CubeA");
 	cubeA->AddComponent(ptr);
 	cubeA->SetPosition({ -1.0f,2.0f,0.0f });
-	cubeA->SetRotation({ 0.0f,45.0f,0.0f });
 	cubeA->SetScale({ 0.5f,0.5f,0.5f });
 
 	engine::Engine::GetInstance().setCurrentScene(m_currentScene);

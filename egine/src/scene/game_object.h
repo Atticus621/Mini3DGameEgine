@@ -2,10 +2,14 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include <glm/glm.hpp>
+#include <glm/vec3.hpp>
+#include <glm/mat4x4.hpp>
+#include <glm/gtc/quaternion.hpp>
+
 #include <glm/gtc/matrix_transform.hpp>
 #include "scene/component.h"
 #include <spdlog/spdlog.h>
+
 namespace engine {
 
 
@@ -18,7 +22,7 @@ namespace engine {
 		void MarkForDestory();
 		void SetName(const std::string& name);
 		void SetPosition(const glm::vec3& position);
-		void SetRotation(const glm::vec3& rotation);
+		void SetRotation(const glm::quat& rotation);
 		void SetScale(const glm::vec3& scale);
 		void AddComponent(Component* component);
 		template<typename T, typename = typename std::enable_if_t<std::is_base_of_v<Component, T>>>
@@ -36,7 +40,7 @@ namespace engine {
 		const std::string& GetName()const;
 		GameObject* GetParent();
 		glm::vec3 GetPosition()const;
-		glm::vec3 GetRotation()const;
+		glm::quat GetRotation()const;
 		glm::vec3 GetScale()const;
 		bool IsAlive()const;
 
@@ -55,7 +59,7 @@ namespace engine {
 		friend class Scene;
 	private:
 		glm::vec3 m_position{ 0.0f,0.0f,0.0f };
-		glm::vec3 m_rotation{ 0.0f,0.0f,0.0f };
+		glm::quat m_rotation{ 1.0f,0.0f,0.0f,0.0f };
 		glm::vec3 m_scale{ 1.0f,1.0f,1.0f };
 	};
 

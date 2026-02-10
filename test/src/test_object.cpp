@@ -92,12 +92,18 @@ TestObject::TestObject()
 		//back face
         4,5,6,
 		4,6,7,
-		//left face
-		1,5,6,
-		1,6,2,
-		//right face
-		0,7,4,
-		0,3,7
+        //left face
+        1,5,6,
+        1,6,2,
+        //right face
+        0,7,4,
+        0,3,7,
+        //top face
+        0,4,5,
+        0,5,1,
+        //bottom face
+        2,6,7,
+        2,7,3,
     };
 
     engine::VertexLayout vertexLayout;
