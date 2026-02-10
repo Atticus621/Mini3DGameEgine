@@ -6,6 +6,8 @@
 #include <glm/vec4.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/mat4x4.hpp>
+#define GLM_ENABLE_EXPERIMENTAL 
+#include "glm/gtx/string_cast.hpp"
 
 void engine::PlayerControlComponent::Update(float delta)
 {
@@ -30,11 +32,11 @@ void engine::PlayerControlComponent::Update(float delta)
 		glm::vec3 right = rotation * glm::vec3(1.0f, 0.0f, 0.0f);
 		glm::quat deltaRotationX = glm::angleAxis(angleX, right);
 
-		rotation = glm::normalize(deltaRotationY * rotation * deltaRotationX);
+		rotation = glm::normalize(deltaRotationY  *deltaRotationX * rotation);
 
-
-		spdlog::info(" rotationX: {}, rotationY: {}", rotation.x, rotation.y);
 		m_owner->SetRotation(rotation);
+
+		spdlog::info("Name:{}, position:{}, rotation:{}", m_owner->GetName(), glm::to_string(position), glm::to_string(rotation));
 	}
 
 

@@ -15,6 +15,8 @@ void engine::GameObject::Update(float delta)
 				m_children.end());
         }
 	}
+
+	
 }
 
 const std::string& engine::GameObject::GetName() const
