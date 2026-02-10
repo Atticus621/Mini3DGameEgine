@@ -10,7 +10,7 @@
 #include <GLFW/glfw3.h>
 #include <GLES3/gl3.h>
 #include <spdlog/spdlog.h>
-
+#include "scene/components/camera_component.h"
 
 namespace engine {
 	void glfwWinodwKeyCallBack(GLFWwindow* window, int key, int sacnCode, int action, int mods) {
@@ -83,10 +83,21 @@ void engine::Engine::Run()
 		m_graphicAPI.SetClearCorlor(1.0f, 1.0f, 1.0f, 1.0f);
 		m_graphicAPI.ClearBuffer();
 
+		int windowWidth=0, windowHeight=0;
+		glfwGetWindowSize(m_window, &windowWidth, &windowHeight);
+		float aspect = static_cast<float>(windowWidth) / static_cast<float>(windowHeight);
+
 		CameraData cameraData;
 		auto mainCamera = m_currentScene->GetMainCamera();
 		 if (mainCamera) {
-
+			 auto cameraComponent = mainCamera->GetComponent<CameraComponent>();
+			 if (cameraComponent) {
+				 cameraData.viewMat = cameraComponent->GetViewMatrix();
+				 cameraData.projectionMat = cameraComponent->GetProjectionMatrix(aspect);
+			 }
+			 else {
+				 spdlog::warn("mainCamera does not have CameraComponent");
+			 }
 			 
 		 }
 		m_renderQueue.Draw(m_graphicAPI, cameraData);

@@ -10,5 +10,5 @@ public:
 	void Destory()override;
 
 private:
-	engine::Scene m_currentScene;
+	engine::Scene* m_currentScene;
 };

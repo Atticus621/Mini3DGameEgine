@@ -30,6 +30,9 @@ namespace engine {
 		InputManager& GetInputManager();
 		GraphicAPI& GetGraphicAPI();
 		RenderQueue& GetRenderQueue();
+
+		Scene* GetCurrentScene() const { return m_currentScene.get(); }
+		void setCurrentScene(Scene* scene) { m_currentScene.reset(scene); }
 	private:
 		std::unique_ptr<Application> m_application;
 		std::chrono::steady_clock::time_point m_lastTimePoint;

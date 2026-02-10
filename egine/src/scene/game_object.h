@@ -5,13 +5,13 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include "scene/component.h"
-
+#include <spdlog/spdlog.h>
 namespace engine {
 
 
 	class GameObject {
 	public:
-		virtual ~GameObject() =default;
+		virtual ~GameObject() = default;
 
 		virtual void Update(float delta);
 
@@ -21,7 +21,18 @@ namespace engine {
 		void SetRotation(const glm::vec3& rotation);
 		void SetScale(const glm::vec3& scale);
 		void AddComponent(Component* component);
-
+		template<typename T, typename = typename std::enable_if_t<std::is_base_of_v<Component, T>>>
+		T* GetComponent()
+		{
+			size_t typeId = Component::StaticType<T>();
+			for (auto& component : m_components) {
+				if (component->GetType() == typeId) {
+					return static_cast<T*>(component.get());
+				}
+			}
+			spdlog::warn("GameObject {} does not have component of type {}", m_name, typeid(T).name());
+			return nullptr;
+		}
 		const std::string& GetName()const;
 		GameObject* GetParent();
 		glm::vec3 GetPosition()const;
@@ -47,4 +58,7 @@ namespace engine {
 		glm::vec3 m_rotation{ 0.0f,0.0f,0.0f };
 		glm::vec3 m_scale{ 1.0f,1.0f,1.0f };
 	};
-}
+
+
+
+};
