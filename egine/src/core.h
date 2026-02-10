@@ -14,3 +14,4 @@
 #include "scene/component.h"
 #include "scene/components/mesh_component.h"
 #include "scene/components/camera_component.h"
+#include "scene/components/player_control_component.h"

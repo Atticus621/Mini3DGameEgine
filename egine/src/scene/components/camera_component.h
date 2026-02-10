@@ -16,7 +16,7 @@ namespace engine
 		glm::mat4 GetProjectionMatrix(float aspect) const;
 
 	private:
-		float m_fov = 45.0f;
+		float m_fov = 60.0f;
 		float nearPlane = 0.1f;
 		float farPlane = 1000.0f;
 	};

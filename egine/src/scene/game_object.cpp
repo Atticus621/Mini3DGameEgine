@@ -57,8 +57,8 @@ glm::mat4 engine::GameObject::GetLocalTransform() const
 {
     glm::mat4 mat = glm::translate(glm::mat4(1.0f), m_position);
 
-	mat = glm::rotate(mat, m_rotation.x, glm::vec3(1.0f, 0.0f, 0.0f));
-	mat = glm::rotate(mat, m_rotation.y, glm::vec3(0.0f, 1.0f, 0.0f));
+    mat = glm::rotate(mat, m_rotation.x, glm::vec3(1.0f, 0.0f, 0.0f));
+    mat = glm::rotate(mat, m_rotation.y, glm::vec3(0.0f, 1.0f, 0.0f));
 	mat = glm::rotate(mat, m_rotation.z, glm::vec3(0.0f, 0.0f, 1.0f));
 
 	mat = glm::scale(mat, m_scale);

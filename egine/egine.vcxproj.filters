@@ -57,6 +57,9 @@
     <ClCompile Include="src\scene\components\camera_component.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\scene\components\player_control_component.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\application.h">
@@ -102,6 +105,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="src\scene\components\camera_component.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scene\components\player_control_component.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

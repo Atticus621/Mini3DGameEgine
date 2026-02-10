@@ -13,8 +13,9 @@ bool Game::Init()
 	auto camera = m_currentScene->CreateGameObject("MainCamera");
 	auto cameraComponent = new engine::CameraComponent();
 	camera->AddComponent(cameraComponent);
+	camera->AddComponent(new engine::PlayerControlComponent());
 
-	camera->SetPosition({ 0.0f,1.0f,3.0f });
+	camera->SetPosition({ 0.0f,0.0f,2.0f });
 
 	m_currentScene->SetMainCamera(camera);
 

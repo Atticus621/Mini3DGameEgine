@@ -10,22 +10,22 @@ void TestObject::Update(float delta)
 {
     engine::GameObject::Update(delta);
 
-	auto position = GetPosition();
-    auto& input = engine::Engine::GetInstance().GetInputManager();
-    if (input.GetKeyPressed(GLFW_KEY_A)) {
-		position.x -= 0.01;
-    }
-    if (input.GetKeyPressed(GLFW_KEY_D)) {
-		position.x += 0.01;
-    }
-    if (input.GetKeyPressed(GLFW_KEY_W)) {
-		position.y += 0.01;
-    }
-    if (input.GetKeyPressed(GLFW_KEY_S)) {
-		position.y -= 0.01;
-    }
+	//auto position = GetPosition();
+ //   auto& input = engine::Engine::GetInstance().GetInputManager();
+ //   if (input.GetKeyPressed(GLFW_KEY_A)) {
+	//	position.x -= 0.01;
+ //   }
+ //   if (input.GetKeyPressed(GLFW_KEY_D)) {
+	//	position.x += 0.01;
+ //   }
+ //   if (input.GetKeyPressed(GLFW_KEY_W)) {
+	//	position.y += 0.01;
+ //   }
+ //   if (input.GetKeyPressed(GLFW_KEY_S)) {
+	//	position.y -= 0.01;
+ //   }
 
-	SetPosition(position);
+	//SetPosition(position);
 
 
 }
