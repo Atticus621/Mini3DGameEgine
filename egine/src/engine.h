@@ -6,6 +6,7 @@
 #include "input/input_manager.h"
 #include "graphic/graphic_api.h"
 #include "render/render_queue.h"
+#include "scene/scene.h"
 
 struct GLFWwindow;
 namespace engine {
@@ -37,6 +38,8 @@ namespace engine {
 		InputManager m_inputManager;
 		GraphicAPI m_graphicAPI;
 		RenderQueue m_renderQueue;
+
+		std::unique_ptr<Scene> m_currentScene;
 
 	private:
 		static void glfwErrorCallBack(int error, const char* description)

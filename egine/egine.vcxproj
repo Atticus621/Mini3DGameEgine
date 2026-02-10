@@ -204,6 +204,7 @@
     <ClCompile Include="src\render\mesh.cpp" />
     <ClCompile Include="src\render\render_queue.cpp" />
     <ClCompile Include="src\scene\component.cpp" />
+    <ClCompile Include="src\scene\components\camera_component.cpp" />
     <ClCompile Include="src\scene\components\mesh_component.cpp" />
     <ClCompile Include="src\scene\game_object.cpp" />
     <ClCompile Include="src\scene\scene.cpp" />
@@ -220,6 +221,7 @@
     <ClInclude Include="src\render\mesh.h" />
     <ClInclude Include="src\render\render_queue.h" />
     <ClInclude Include="src\scene\component.h" />
+    <ClInclude Include="src\scene\components\camera_component.h" />
     <ClInclude Include="src\scene\components\mesh_component.h" />
     <ClInclude Include="src\scene\game_object.h" />
     <ClInclude Include="src\scene\scene.h" />

@@ -25,7 +25,11 @@ namespace engine {
 			return gameObject;
 		}
 		bool SetParent(GameObject* child, GameObject* parent);
+
+		void SetMainCamera(GameObject* camera);
+		GameObject* GetMainCamera() const;
 	private:
 		std::vector<std::unique_ptr<GameObject>> m_gameObjects;
+		GameObject* m_mainCamera = nullptr;
 	};
 }

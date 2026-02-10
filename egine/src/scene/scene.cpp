@@ -110,3 +110,13 @@ bool engine::Scene::SetParent(GameObject* object, GameObject* parent)
 	return result;
 
 }
+
+void engine::Scene::SetMainCamera(GameObject* camera)
+{
+	m_mainCamera = camera;
+}
+
+engine::GameObject* engine::Scene::GetMainCamera() const
+{
+    return m_mainCamera;
+}

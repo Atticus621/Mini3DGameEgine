@@ -83,7 +83,13 @@ void engine::Engine::Run()
 		m_graphicAPI.SetClearCorlor(1.0f, 1.0f, 1.0f, 1.0f);
 		m_graphicAPI.ClearBuffer();
 
-		m_renderQueue.Draw(m_graphicAPI);
+		CameraData cameraData;
+		auto mainCamera = m_currentScene->GetMainCamera();
+		 if (mainCamera) {
+
+			 
+		 }
+		m_renderQueue.Draw(m_graphicAPI, cameraData);
 
 		glfwSwapBuffers(m_window);
 

@@ -9,7 +9,7 @@
 
 bool Game::Init()
 {
-	m_scene.CreateGameObject<TestObject>("TestObject");
+	m_currentScene.CreateGameObject<TestObject>("TestObject");
     
     return true;
 }
@@ -17,7 +17,7 @@ bool Game::Init()
 void Game::Update(float delta)
 {
 	
-	m_scene.Update(delta);
+	m_currentScene.Update(delta);
 }
 
 void Game::Destory()
