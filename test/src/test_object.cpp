@@ -74,15 +74,30 @@ TestObject::TestObject()
     material->SetShaderProgram(shaderProgram);
 
     std::vector<float> vertices{
-         0.5f, 0.5f, 0.0f,  1.0f, 0.0f, 0.0f,
-        -0.5f, 0.5f, 0.0f,  0.0f, 1.0f, 0.0f,
-        -0.5f,-0.5f, 0.0f,  0.0f, 1.0f, 0.0f,
-         0.5f,-0.5f, 0.0f,  0.0f, 0.0f, 1.0f
+         0.5f, 0.5f, 0.5f,  1.0f, 0.0f, 0.0f,
+        -0.5f, 0.5f, 0.5f,  0.0f, 1.0f, 0.0f,
+        -0.5f,-0.5f, 0.5f,  0.0f, 1.0f, 0.0f,
+         0.5f,-0.5f, 0.5f,  0.0f, 0.0f, 1.0f,
+
+         0.5f, 0.5f,-0.5f,  1.0f, 0.0f, 0.0f,
+        -0.5f, 0.5f,-0.5f,  0.0f, 1.0f, 0.0f,
+        -0.5f,-0.5f,-0.5f,  0.0f, 1.0f, 0.0f,
+         0.5f,-0.5f,-0.5f,  0.0f, 0.0f, 1.0f,
     };
 
     std::vector<uint32_t> indices{
+		//front face
         0,1,2,
-        0,2,3
+        0,2,3,
+		//back face
+        4,5,6,
+		4,6,7,
+		//left face
+		1,5,6,
+		1,6,2,
+		//right face
+		0,7,4,
+		0,3,7
     };
 
     engine::VertexLayout vertexLayout;

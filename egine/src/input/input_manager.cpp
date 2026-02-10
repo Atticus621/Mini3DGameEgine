@@ -38,6 +38,11 @@ void engine::InputManager::SetMouseOldPosition(float x, float y)
 	m_mouseOldPosition = { x,y };
 }
 
+void engine::InputManager::SetMouseOldPosition(const glm::vec2& position)
+{
+	m_mouseOldPosition = position;
+}
+
 glm::vec2 engine::InputManager::GetMouseOldPosition() const
 {
 	return m_mouseOldPosition;
@@ -46,6 +51,11 @@ glm::vec2 engine::InputManager::GetMouseOldPosition() const
 void engine::InputManager::SetMouseCurrentPosition(float x, float y)
 {
 	m_mouseCurrentPosition = { x,y };
+}
+
+void engine::InputManager::SetMouseCurrentPosition(const glm::vec2& position)
+{
+	m_mouseCurrentPosition = position;
 }
 
 glm::vec2 engine::InputManager::GetMouseCurrentPosition() const

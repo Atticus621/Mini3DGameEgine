@@ -59,6 +59,12 @@ std::shared_ptr<engine::ShaderProgram> engine::GraphicAPI::CreateShaderProgram(c
     return std::make_shared<ShaderProgram>(shaderProgramID);
 }
 
+bool engine::GraphicAPI::Init()
+{
+	glEnable(GL_DEPTH_TEST);
+    return true;
+}
+
 void engine::GraphicAPI::BindShaderProgram(engine::ShaderProgram* shaderProgram)
 {
     if (!shaderProgram) {
@@ -102,7 +108,7 @@ void engine::GraphicAPI::SetClearCorlor(float r, float g, float b, float a)
 
 void engine::GraphicAPI::ClearBuffer()
 {
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void engine::GraphicAPI::BindMesh(Mesh* mesh)

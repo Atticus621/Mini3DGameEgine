@@ -12,6 +12,7 @@ namespace engine{
 	public:
 		std::shared_ptr<ShaderProgram> CreateShaderProgram(const std::string& vertexShaderSource, const std::string& fragmentShaderSource);
 
+		bool Init();
 		void BindShaderProgram(ShaderProgram* shaderProgram);
 		void BindMaterial(Material* material);
 

@@ -21,8 +21,90 @@ bool Game::Init()
 
 	m_currentScene->CreateGameObject<TestObject>("TestObject");
     
-	engine::Engine::GetInstance().setCurrentScene(m_currentScene);
+    // Shader sources
+    std::string vertexShaderSource = R"(#version 300 es
+    layout (location = 0) in vec3 position;
+    layout (location = 1) in vec3 color;
 
+    out vec3 vColor;
+    
+    uniform mat4 uModel;
+    uniform mat4 uView;
+    uniform mat4 uProjection;
+
+    void main() {
+
+        vColor=color;
+        gl_Position = uProjection * uView * uModel * vec4(position,1.0);
+    }
+)";
+
+    std::string fragmentShaderSource = R"(#version 300 es
+    precision mediump float;
+
+    in vec3 vColor;
+    
+    out vec4 FragColor;
+
+    void main() {
+        FragColor = vec4(vColor, 1.0);
+    }
+)";
+
+    auto& graphicAPI = engine::Engine::GetInstance().GetGraphicAPI();
+    auto shaderProgram = graphicAPI.CreateShaderProgram(vertexShaderSource, fragmentShaderSource);
+
+    spdlog::info("create shaderProgram :{}", static_cast<unsigned int>(shaderProgram->GetShaderProgramID()));
+
+    auto material = std::make_shared<engine::Material>();
+    material->SetShaderProgram(shaderProgram);
+
+    std::vector<float> vertices{
+         0.5f, 0.5f, 0.5f,  1.0f, 0.0f, 0.0f,
+        -0.5f, 0.5f, 0.5f,  0.0f, 1.0f, 0.0f,
+        -0.5f,-0.5f, 0.5f,  0.0f, 1.0f, 0.0f,
+         0.5f,-0.5f, 0.5f,  0.0f, 0.0f, 1.0f,
+
+         0.5f, 0.5f,-0.5f,  1.0f, 0.0f, 0.0f,
+        -0.5f, 0.5f,-0.5f,  0.0f, 1.0f, 0.0f,
+        -0.5f,-0.5f,-0.5f,  0.0f, 1.0f, 0.0f,
+         0.5f,-0.5f,-0.5f,  0.0f, 0.0f, 1.0f,
+    };
+
+    std::vector<uint32_t> indices{
+        //front face
+        0,1,2,
+        0,2,3,
+        //back face
+        4,5,6,
+        4,6,7,
+        //left face
+        1,5,6,
+        1,6,2,
+        //right face
+        0,7,4,
+        0,3,7
+    };
+
+    engine::VertexLayout vertexLayout;
+    vertexLayout.elements.push_back(
+        { 0,3,GL_FLOAT,0 }
+    );
+    vertexLayout.elements.push_back({ 1,3,GL_FLOAT,3 * sizeof(float) });
+    vertexLayout.stride = 6 * sizeof(float);
+
+    vertexLayout.logInfo();
+
+    auto mesh = std::make_shared<engine::Mesh>(vertexLayout, vertices, indices);
+    auto ptr = new engine::MeshComponent(material, mesh);
+
+    auto cubeA = m_currentScene->CreateGameObject("CubeA");
+	cubeA->AddComponent(ptr);
+	cubeA->SetPosition({ -1.0f,2.0f,0.0f });
+	cubeA->SetRotation({ 0.0f,45.0f,0.0f });
+	cubeA->SetScale({ 0.5f,0.5f,0.5f });
+
+	engine::Engine::GetInstance().setCurrentScene(m_currentScene);
     return true;
 }
 

@@ -79,6 +79,12 @@ bool engine::Engine::Init(int width,int height)
 	glfwSetKeyCallback(m_window, glfwWinodwKeyCallBack);
 	glfwSetMouseButtonCallback(m_window, glfwWindowMouseButtonCallBack);
 	glfwSetCursorPosCallback(m_window, glfwWindowCursorPosCallBack);
+
+	if (!m_graphicAPI.Init())
+	{
+		spdlog::error("GraphicAPI init failed");
+		return false;
+	}
 	return m_application->Init();
 }
 

@@ -19,9 +19,11 @@ namespace engine {
 		bool GetMouseButtonPressed(int button);
 
 		void SetMouseOldPosition(float x, float y);
+		void SetMouseOldPosition(const glm::vec2& position);
 		glm::vec2 GetMouseOldPosition() const;
 
 		void SetMouseCurrentPosition(float x, float y);
+		void SetMouseCurrentPosition(const glm::vec2& position);
 		glm::vec2 GetMouseCurrentPosition() const;
 	private:
 		friend class Engine;
