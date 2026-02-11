@@ -1,0 +1,14 @@
+{
+  "shaders": {
+    "vertex": "shaders/vertex_shader.glsl",
+    "fragment": "shaders/fragment_shader.glsl"
+  },
+  "params": {
+    "textures": [
+      {
+        "name": "breakTexture",
+        "path": "textures/break.jpg"
+      }
+    ]
+  }
+}

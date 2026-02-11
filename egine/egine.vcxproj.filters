@@ -130,12 +130,8 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="assets\shader\fragment_shader.glsl" />
-    <None Include="assets\shader\vertex_shader.glsl" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="assets\break.jpg">
-      <Filter>资源文件</Filter>
-    </Image>
+    <None Include="assets\shaders\fragment_shader.glsl" />
+    <None Include="assets\shaders\vertex_shader.glsl" />
+    <None Include="assets\materials\break.mat" />
   </ItemGroup>
 </Project>

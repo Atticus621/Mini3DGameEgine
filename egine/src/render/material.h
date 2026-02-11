@@ -12,6 +12,8 @@ namespace engine {
 		void SetParam(const std::string& name, float val);
 		void SetParam(const std::string& name, float v0, float v1);
 		void SetParam(const std::string& name, std::shared_ptr<Texture>& texture);
+
+		static std::shared_ptr<Material> Load(const std::string& path);
 		ShaderProgram* GetShaderProgram()const;
 		void Bind();
 		void Unbind();

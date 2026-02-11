@@ -10,7 +10,7 @@
 bool Game::Init()
 {
 	auto& fs = engine::Engine::GetInstance().GetFileSystem();
-	auto texture = engine::Texture::load("break.jpg");
+
 
 	m_currentScene = new engine::Scene();
 	auto camera = m_currentScene->CreateGameObject("MainCamera");
@@ -23,19 +23,7 @@ bool Game::Init()
 	m_currentScene->SetMainCamera(camera);
 
     
-    // Shader sources
-    std::string vertexShaderSource = fs.LoadAssetsFileText("shader\\vertex_shader.glsl");
-
-    std::string fragmentShaderSource = fs.LoadAssetsFileText("shader\\fragment_shader.glsl");
-
-    auto& graphicAPI = engine::Engine::GetInstance().GetGraphicAPI();
-    auto shaderProgram = graphicAPI.CreateShaderProgram(vertexShaderSource, fragmentShaderSource);
-    spdlog::info("create shaderProgram :{}", static_cast<unsigned int>(shaderProgram->GetShaderProgramID()));
-
-
-    auto material = std::make_shared<engine::Material>();
-    material->SetShaderProgram(shaderProgram);
-	material->SetParam("uTexture", texture);
+    auto material = engine::Material::Load("materials\\break.mat");
 
     std::vector<float> vertices{
         // ÕýÃæ (front face)

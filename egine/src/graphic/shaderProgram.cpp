@@ -29,7 +29,7 @@ GLint engine::ShaderProgram::GetUniforLocation(const std::string& name)
 	{
 		GLuint location = glGetUniformLocation(m_shaderProgramId, name.c_str());
 		if (location == GL_INVALID_INDEX) {
-			spdlog::error(" uniform {} can not find ", name);
+			spdlog::warn(" uniform {} can not find", name);
 		}
 		else {
 			m_uniformLocationCache[name] = location;
