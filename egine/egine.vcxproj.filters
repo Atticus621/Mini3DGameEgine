@@ -60,6 +60,9 @@
     <ClCompile Include="src\scene\components\player_control_component.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\io\file_system.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\application.h">
@@ -108,6 +111,15 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="src\scene\components\player_control_component.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\io\file_system.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\config.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="third_party\stb_image.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

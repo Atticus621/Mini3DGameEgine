@@ -167,3 +167,8 @@ engine::RenderQueue& engine::Engine::GetRenderQueue()
 	return m_renderQueue;
 }
 
+engine::FileSystem& engine::Engine::GetFileSystem()
+{
+	return m_fileSystem;
+}
+

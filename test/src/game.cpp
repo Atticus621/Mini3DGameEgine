@@ -6,9 +6,23 @@
 #include <GLES3/gl3.h>
 #include <string>
 
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
 
 bool Game::Init()
 {
+	auto& fs = engine::Engine::GetInstance().GetFileSystem();
+	auto path = fs.GetAssetsPath() /"break.jpg";
+
+	int width = 0, height = 0, channels = 0;
+	unsigned char* data = stbi_load(path.string().c_str(), &width, &height, &channels, 0);
+    if (data) {
+        spdlog::info("Image loaded successfully: {} ({}x{}, {} channels)", path.string(), width, height, channels);
+        stbi_image_free(data);
+    }
+    else {
+        spdlog::error("Failed to load image: {}", path.string());
+	}
 	m_currentScene = new engine::Scene();
 	auto camera = m_currentScene->CreateGameObject("MainCamera");
 	auto cameraComponent = new engine::CameraComponent();

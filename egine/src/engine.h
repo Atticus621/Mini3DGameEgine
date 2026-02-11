@@ -7,6 +7,7 @@
 #include "graphic/graphic_api.h"
 #include "render/render_queue.h"
 #include "scene/scene.h"
+#include "io/file_system.h"
 
 struct GLFWwindow;
 namespace engine {
@@ -30,6 +31,7 @@ namespace engine {
 		InputManager& GetInputManager();
 		GraphicAPI& GetGraphicAPI();
 		RenderQueue& GetRenderQueue();
+		FileSystem& GetFileSystem();
 
 		Scene* GetCurrentScene() const { return m_currentScene.get(); }
 		void setCurrentScene(Scene* scene) { m_currentScene.reset(scene); }
@@ -41,6 +43,7 @@ namespace engine {
 		InputManager m_inputManager;
 		GraphicAPI m_graphicAPI;
 		RenderQueue m_renderQueue;
+		FileSystem m_fileSystem;
 
 		std::unique_ptr<Scene> m_currentScene;
 
