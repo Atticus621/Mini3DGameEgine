@@ -67,6 +67,41 @@ std::filesystem::path engine::FileSystem::GetAssetsPath() const
 
 #endif
     path = std::filesystem::weakly_canonical(GetExecutablePath() / "assets");
-	spdlog::error("Using default assets path based on executable location:{}",path.string());
+	spdlog::info("Using default assets path based on executable location:{}",path.string());
     return path;
+}
+
+std::vector<char> engine::FileSystem::LoadFile(const std::filesystem::path& filePath)
+{
+	std::ifstream file(filePath, std::ios::binary | std::ios::ate);
+	if (!file.is_open()) {
+        spdlog::error("Failed to open file: {}", filePath.string());
+        return {};
+    }
+
+	auto fileSize = file.tellg();
+    file.seekg(0);
+	std::vector<char> buffer(static_cast<size_t>(fileSize));
+
+    if(!file.read(buffer.data(), fileSize)) {
+        spdlog::error("Failed to read file: {}", filePath.string());
+        return {};
+    }
+	return buffer;
+
+}
+
+std::vector<char> engine::FileSystem::LoadAssetsFile(const std::string& filePath)
+{
+	return LoadFile(GetAssetsPath() / filePath);
+}
+
+std::string engine::FileSystem::LoadAssetsFileText(const std::string& filePath)
+{
+	auto buffer = LoadAssetsFile(filePath);
+    if (buffer.empty()) {
+        spdlog::error("Failed to load asset file: {}", filePath);
+        return {};
+	}
+	return std::string(buffer.begin(), buffer.end());
 }

@@ -36,35 +36,11 @@ void TestObject::Update(float delta)
 TestObject::TestObject()
 
 {
+	auto& fs = engine::Engine::GetInstance().GetFileSystem();
     // Shader sources
-    std::string vertexShaderSource = R"(#version 300 es
-    layout (location = 0) in vec3 position;
-    layout (location = 1) in vec3 color;
+	std::string vertexShaderSource = fs.LoadAssetsFileText("shader\\vertex_shader.glsl");
 
-    out vec3 vColor;
-    
-    uniform mat4 uModel;
-    uniform mat4 uView;
-    uniform mat4 uProjection;
-
-    void main() {
-
-        vColor=color;
-        gl_Position = uProjection * uView * uModel * vec4(position,1.0);
-    }
-)";
-
-    std::string fragmentShaderSource = R"(#version 300 es
-    precision mediump float;
-
-    in vec3 vColor;
-    
-    out vec4 FragColor;
-
-    void main() {
-        FragColor = vec4(vColor, 1.0);
-    }
-)";
+	std::string fragmentShaderSource = fs.LoadAssetsFileText("shader\\fragment_shader.glsl");
 
     auto& graphicAPI = engine::Engine::GetInstance().GetGraphicAPI();
     auto shaderProgram = graphicAPI.CreateShaderProgram(vertexShaderSource, fragmentShaderSource);

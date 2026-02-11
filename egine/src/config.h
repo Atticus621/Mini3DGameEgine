@@ -1,3 +1,3 @@
 #pragma once
 
-#define ASSETS_ROOT "..\\assets"
+#define ASSETS_ROOT "assets"
