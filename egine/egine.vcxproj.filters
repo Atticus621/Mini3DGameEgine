@@ -63,6 +63,9 @@
     <ClCompile Include="src\io\file_system.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\graphic\texture.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\application.h">
@@ -119,7 +122,10 @@
     <ClInclude Include="src\config.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="third_party\stb_image.h">
+    <ClInclude Include="third_party\stb_image\stb_image.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graphic\texture.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

@@ -2,6 +2,7 @@
 #include "graphic/shaderProgram.h"
 #include <spdlog/spdlog.h>
 
+
 void engine::Material::SetShaderProgram(std::shared_ptr<engine::ShaderProgram>& shaderProgram)
 {
 	if (!shaderProgram)
@@ -25,6 +26,12 @@ void engine::Material::SetParam(const std::string& name, float v0, float v1)
 	m_f2Params[name] = { v0,v1 };
 }
 
+void engine::Material::SetParam(const std::string& name, std::shared_ptr<Texture>& texture)
+{
+
+	m_textureParams[name] = texture;
+}
+
 engine::ShaderProgram* engine::Material::GetShaderProgram() const
 {
 	return m_shaderProgram.get();
@@ -43,6 +50,9 @@ void engine::Material::Bind()
 	}
 	for (auto& param : m_f2Params) {
 		m_shaderProgram->SetUniform(param.first, param.second.first,param.second.second);
+	}
+	for (auto& param : m_textureParams) {
+		m_shaderProgram->SetTexture(param.first, param.second.get());
 	}
 }
 

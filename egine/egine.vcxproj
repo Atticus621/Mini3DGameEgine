@@ -214,6 +214,7 @@
   <ItemGroup>
     <ClCompile Include="src\application.cpp" />
     <ClCompile Include="src\engine.cpp" />
+    <ClCompile Include="src\graphic\texture.cpp" />
     <ClCompile Include="src\io\file_system.cpp" />
     <ClCompile Include="src\graphic\graphic_api.cpp" />
     <ClCompile Include="src\graphic\shaderProgram.cpp" />
@@ -236,6 +237,7 @@
     <ClInclude Include="src\engine.h" />
     <ClInclude Include="src\graphic\graphic_api.h" />
     <ClInclude Include="src\graphic\shaderProgram.h" />
+    <ClInclude Include="src\graphic\texture.h" />
     <ClInclude Include="src\graphic\vertex_layout.h" />
     <ClInclude Include="src\input\input_manager.h" />
     <ClInclude Include="src\io\file_system.h" />
@@ -248,7 +250,7 @@
     <ClInclude Include="src\scene\components\player_control_component.h" />
     <ClInclude Include="src\scene\game_object.h" />
     <ClInclude Include="src\scene\scene.h" />
-    <ClInclude Include="third_party\stb_image.h" />
+    <ClInclude Include="third_party\stb_image\stb_image.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

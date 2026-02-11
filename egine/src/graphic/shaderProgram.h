@@ -6,6 +6,8 @@
 #include <glm/mat4x4.hpp>
 
 namespace engine {
+	class Texture;
+
 	class ShaderProgram {
 	public:
 		ShaderProgram() = delete;
@@ -20,9 +22,11 @@ namespace engine {
 		void SetUniform(const std::string& name, float val);
 		void SetUniform(const std::string& name, float v0, float v1);
 		void SetUniform(const std::string& name, const glm::mat4& mat4);
+		void SetTexture(const std::string& name, const Texture* texture);
 		void UnBind();
 	private:
 		std::unordered_map<std::string, GLint> m_uniformLocationCache;
 		GLuint m_shaderProgramId = 0;
+		int m_textureUnitCounter = 0; // 用于跟踪已绑定的纹理单元数量
 	};
 }

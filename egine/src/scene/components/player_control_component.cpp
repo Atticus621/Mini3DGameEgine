@@ -36,7 +36,7 @@ void engine::PlayerControlComponent::Update(float delta)
 
 		m_owner->SetRotation(rotation);
 
-		spdlog::info("Name:{}, position:{}, rotation:{}", m_owner->GetName(), glm::to_string(position), glm::to_string(rotation));
+
 	}
 
 

@@ -1,10 +1,11 @@
 #include "game.h"
+#include "test_object.h"
 
 #include <spdlog/spdlog.h>
 #include <GLFW/glfw3.h>
 #include <GLES3/gl3.h>
 #include <string>
-#include "test_object.h"
+
 
 void TestObject::Update(float delta)
 {

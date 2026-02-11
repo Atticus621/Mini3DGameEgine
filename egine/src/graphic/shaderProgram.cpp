@@ -1,6 +1,7 @@
 #include "shaderProgram.h"
 #include "spdlog/spdlog.h"
 #include "glm/gtc/type_ptr.hpp"
+#include "texture.h"
 
 engine::ShaderProgram::ShaderProgram(GLuint shaderProgramId):m_shaderProgramId(shaderProgramId)
 {
@@ -13,9 +14,9 @@ engine::ShaderProgram::~ShaderProgram()
 
 void engine::ShaderProgram::Bind()
 {
-
 	glUseProgram(m_shaderProgramId);
 
+	m_textureUnitCounter = 0;
 }
 
 GLint engine::ShaderProgram::GetUniforLocation(const std::string& name)
@@ -60,6 +61,17 @@ void engine::ShaderProgram::SetUniform(const std::string& name, const glm::mat4&
 {
 	GLint location = GetUniforLocation(name);
 	glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(mat4));
+}
+
+void engine::ShaderProgram::SetTexture(const std::string& name, const Texture* texture)
+{
+
+	auto location = GetUniforLocation(name);
+	glActiveTexture(GL_TEXTURE0 + m_textureUnitCounter);
+	glBindTexture(GL_TEXTURE_2D, texture->GetTextureID());
+	glUniform1i(location, m_textureUnitCounter);
+	++m_textureUnitCounter;
+
 }
 
 void engine::ShaderProgram::UnBind()
