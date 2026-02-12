@@ -15,5 +15,7 @@
 #include "scene/components/mesh_component.h"
 #include "scene/components/camera_component.h"
 #include "scene/components/player_control_component.h"
+#include "scene/components/light_component.h"
 #include "io/file_system.h"
 #include "stb_image/stb_image.h"
+#include "comman.h"

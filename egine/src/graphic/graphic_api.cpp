@@ -78,7 +78,10 @@ void engine::GraphicAPI::BindMaterial(engine::Material* material)
     if (!material) {
         spdlog::error("material is nullptr,can not bind material");
     }
-    material->Bind();
+    else {
+        material->Bind();
+    }
+
 }
 
 GLuint engine::GraphicAPI::CreateVBO(const std::vector<float>& vertices)

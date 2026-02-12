@@ -8,7 +8,7 @@
 namespace engine {
 
 	class GameObject;
-
+	struct LightData;
 	class Scene {
 	public:
 
@@ -28,6 +28,10 @@ namespace engine {
 
 		void SetMainCamera(GameObject* camera);
 		GameObject* GetMainCamera() const;
+
+		std::vector<LightData> CollectLight();
+	private:
+		void collectLightRecursive(engine::GameObject* obj, std::vector<engine::LightData>& lights);
 	private:
 		std::vector<std::unique_ptr<GameObject>> m_gameObjects;
 		GameObject* m_mainCamera = nullptr;

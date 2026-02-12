@@ -11,7 +11,7 @@ glm::mat4 engine::CameraComponent::GetViewMatrix() const
 {
 	glm::mat4 viewMat = glm::mat4(1.0f);
 	viewMat = glm::mat4_cast(GetOwner()->GetRotation());
-	viewMat = glm::translate(viewMat,GetOwner()->GetPosition());
+	viewMat = glm::translate(viewMat,GetOwner()->GetLocalPosition());
 
 	if (m_owner->GetParent())
 	{

@@ -231,12 +231,14 @@
     <ClCompile Include="src\render\render_queue.cpp" />
     <ClCompile Include="src\scene\component.cpp" />
     <ClCompile Include="src\scene\components\camera_component.cpp" />
+    <ClCompile Include="src\scene\components\light_component.cpp" />
     <ClCompile Include="src\scene\components\mesh_component.cpp" />
     <ClCompile Include="src\scene\components\player_control_component.cpp" />
     <ClCompile Include="src\scene\game_object.cpp" />
     <ClCompile Include="src\scene\scene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\comman.h" />
     <ClInclude Include="src\config.h" />
     <ClInclude Include="src\application.h" />
     <ClInclude Include="src\core.h" />
@@ -252,6 +254,7 @@
     <ClInclude Include="src\render\render_queue.h" />
     <ClInclude Include="src\scene\component.h" />
     <ClInclude Include="src\scene\components\camera_component.h" />
+    <ClInclude Include="src\scene\components\light_component.h" />
     <ClInclude Include="src\scene\components\mesh_component.h" />
     <ClInclude Include="src\scene\components\player_control_component.h" />
     <ClInclude Include="src\scene\game_object.h" />

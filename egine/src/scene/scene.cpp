@@ -1,4 +1,6 @@
 #include "scene.h"
+#include "comman.h"
+#include "scene/components/light_component.h"
 
 void engine::Scene::Update(float delta)
 {
@@ -119,4 +121,30 @@ void engine::Scene::SetMainCamera(GameObject* camera)
 engine::GameObject* engine::Scene::GetMainCamera() const
 {
     return m_mainCamera;
+}
+
+std::vector<engine::LightData> engine::Scene::CollectLight()
+{
+    std::vector<engine::LightData> lights;
+    for (auto& obj : m_gameObjects) {
+        collectLightRecursive(obj.get(), lights);
+    }
+    return lights;
+    
+}
+
+void engine::Scene::collectLightRecursive(engine::GameObject* obj, std::vector<engine::LightData>& lights)
+{
+   
+    if (auto light = obj->GetComponent<LightComponent>()) {
+        LightData lightData;
+        lightData.color = light->GetCorlor();
+        lightData.position = obj->GetWorldPosition();
+        lights.push_back(lightData);
+    }
+    for (auto& child : obj->m_children) {
+        collectLightRecursive(child.get(),lights);
+    }
+    
+
 }

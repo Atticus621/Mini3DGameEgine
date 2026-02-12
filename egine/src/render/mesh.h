@@ -19,7 +19,7 @@ namespace engine {
 		void Draw();
 
 		static std::shared_ptr<Mesh> Load(const std::string& filePath);
-
+		static std::shared_ptr<Mesh> CreateCubeMesh();
 		void logInfo();
 	private:
 		VertexLayout m_vertexLayout;

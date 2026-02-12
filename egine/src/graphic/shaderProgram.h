@@ -21,6 +21,7 @@ namespace engine {
 		GLuint GetShaderProgramID();
 		void SetUniform(const std::string& name, float val);
 		void SetUniform(const std::string& name, float v0, float v1);
+		void SetUniform(const std::string& name, const glm::vec3& v3);
 		void SetUniform(const std::string& name, const glm::mat4& mat4);
 		void SetTexture(const std::string& name, const Texture* texture);
 		void UnBind();

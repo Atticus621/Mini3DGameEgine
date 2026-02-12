@@ -17,6 +17,7 @@ namespace engine {
 		static constexpr int PositionAttributeLocation = 0;
 		static constexpr int ColorAttributeLocation = 1;
 		static constexpr int UVAttributeLocation = 2;
+		static constexpr int Normal = 3;
 	};
 
 	struct VertexLayout {

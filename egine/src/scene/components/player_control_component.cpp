@@ -14,7 +14,7 @@ void engine::PlayerControlComponent::Update(float delta)
 	auto& input = engine::Engine::GetInstance().GetInputManager();
 
 
-	auto position = m_owner->GetPosition();
+	auto position = m_owner->GetLocalPosition();
 	auto rotation = m_owner->GetRotation();
 
 	if (input.GetMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT)) {

@@ -57,6 +57,12 @@ void engine::ShaderProgram::SetUniform(const std::string& name, float v0, float 
 	glUniform2f(location, v0,v1);
 }
 
+void engine::ShaderProgram::SetUniform(const std::string& name, const glm::vec3& v3)
+{
+	GLint location = GetUniforLocation(name);
+	glUniform3fv(location, 1, glm::value_ptr(v3));
+}
+
 void engine::ShaderProgram::SetUniform(const std::string& name, const glm::mat4& mat4)
 {
 	GLint location = GetUniforLocation(name);

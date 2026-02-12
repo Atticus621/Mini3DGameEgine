@@ -11,7 +11,6 @@ bool Game::Init()
 {
 	auto& fs = engine::Engine::GetInstance().GetFileSystem();
 
-
 	m_currentScene = new engine::Scene();
 	auto camera = m_currentScene->CreateGameObject("MainCamera");
 	auto cameraComponent = new engine::CameraComponent();
@@ -25,64 +24,11 @@ bool Game::Init()
     
     auto material = engine::Material::Load("materials\\break.mat");
 
-    std::vector<float> vertices{
-        // 正面 (front face)
-         0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 0.0f,  1.0f, 1.0f,
-        -0.5f,  0.5f,  0.5f,  0.0f, 1.0f, 0.0f,  0.0f, 1.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f, 1.0f, 0.0f,  0.0f, 0.0f,
-         0.5f, -0.5f,  0.5f,  0.0f, 0.0f, 1.0f,  1.0f, 0.0f,
-
-         // 顶面 (top face)
-          0.5f,  0.5f, -0.5f,  1.0f, 0.0f, 0.0f,  1.0f, 1.0f,
-         -0.5f,  0.5f, -0.5f,  0.0f, 1.0f, 0.0f,  0.0f, 1.0f,
-         -0.5f,  0.5f,  0.5f,  0.0f, 1.0f, 0.0f,  0.0f, 0.0f,
-          0.5f,  0.5f,  0.5f,  0.0f, 0.0f, 1.0f,  1.0f, 0.0f,
-
-          // 背面 (back face)
-           0.5f, -0.5f, -0.5f,  1.0f, 0.0f, 0.0f,  1.0f, 0.0f,
-          -0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 0.0f,  0.0f, 0.0f,
-          -0.5f,  0.5f, -0.5f,  0.0f, 1.0f, 0.0f,  0.0f, 1.0f,
-           0.5f,  0.5f, -0.5f,  0.0f, 0.0f, 1.0f,  1.0f, 1.0f,
-
-           // 底面 (bottom face)
-            0.5f, -0.5f,  0.5f,  1.0f, 0.0f, 0.0f,  1.0f, 1.0f,
-           -0.5f, -0.5f,  0.5f,  0.0f, 1.0f, 0.0f,  0.0f, 1.0f,
-           -0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 0.0f,  0.0f, 0.0f,
-            0.5f, -0.5f, -0.5f,  0.0f, 0.0f, 1.0f,  1.0f, 0.0f,
-
-            // 左面 (left face)
-            -0.5f,  0.5f, -0.5f,  1.0f, 0.0f, 0.0f,  1.0f, 1.0f,
-            -0.5f,  0.5f,  0.5f,  0.0f, 1.0f, 0.0f,  0.0f, 1.0f,
-            -0.5f, -0.5f,  0.5f,  0.0f, 1.0f, 0.0f,  0.0f, 0.0f,
-            -0.5f, -0.5f, -0.5f,  0.0f, 0.0f, 1.0f,  1.0f, 0.0f,
-
-            // 右面 (right face)
-             0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 0.0f,  1.0f, 1.0f,
-             0.5f,  0.5f, -0.5f,  0.0f, 1.0f, 0.0f,  0.0f, 1.0f,
-             0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 0.0f,  0.0f, 0.0f,
-             0.5f, -0.5f,  0.5f,  0.0f, 0.0f, 1.0f,  1.0f, 0.0f
-    };
-
-    std::vector<uint32_t> indices{
-    0, 1, 2,  0, 2, 3,   // 正面
-    4, 5, 6,  4, 6, 7,   // 顶面
-    8, 9,10,  8,10,11,   // 背面
-    12,13,14, 12,14,15,  // 底面
-    16,17,18, 16,18,19,  // 左面
-    20,21,22, 20,22,23   // 右面
-    };
-
-    engine::VertexLayout vertexLayout;
-    vertexLayout.elements.push_back(
-        { 0,3,GL_FLOAT,0 }
-    );
-    vertexLayout.elements.push_back({ 1,3,GL_FLOAT,3 * sizeof(float) });
-	vertexLayout.elements.push_back({ 2,2,GL_FLOAT,6 * sizeof(float) });
-    vertexLayout.stride = 8 * sizeof(float);
-
-    vertexLayout.logInfo();
-
-    auto mesh = std::make_shared<engine::Mesh>(vertexLayout, vertices, indices);
+	auto mesh = engine::Mesh::CreateCubeMesh();
+    auto light = m_currentScene->CreateGameObject("Light");
+    auto lightComponent = new engine::LightComponent();
+    light->AddComponent(lightComponent);
+    light->SetPosition({ 5.0f,0.0f,0.0f });
 
     auto cubeA = m_currentScene->CreateGameObject("CubeA");
 	cubeA->AddComponent(new engine::MeshComponent(material, mesh));
@@ -99,12 +45,12 @@ bool Game::Init()
 	cubeC->SetPosition({ -0.5f,0.0f,0.0f });
 	cubeC->SetScale({ 0.5f,0.5f,0.5f });
 
-	auto duckMesh = engine::Mesh::Load("models\\Duck.gltf");
-	auto duckMaterial = engine::Material::Load("materials\\duck.mat");
-	auto duck = m_currentScene->CreateGameObject("Duck");
-	duck->AddComponent(new engine::MeshComponent(duckMaterial, duckMesh));
-	duck->SetPosition({ 0.0f,0.0f,1.0f });
-    duck->SetScale({ 0.006,0.006,0.008 });
+	//auto duckMesh = engine::Mesh::Load("models\\Duck.gltf");
+	//auto duckMaterial = engine::Material::Load("materials\\duck.mat");
+	//auto duck = m_currentScene->CreateGameObject("Duck");
+	//duck->AddComponent(new engine::MeshComponent(duckMaterial, duckMesh));
+	//duck->SetPosition({ 0.0f,0.0f,1.0f });
+ //   duck->SetScale({ 0.006,0.006,0.008 });
 
 	engine::Engine::GetInstance().setCurrentScene(m_currentScene);
     return true;

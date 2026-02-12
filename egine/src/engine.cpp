@@ -23,7 +23,6 @@ namespace engine {
 			inputManager.SetKeyPressed(key, false);
 		}
 	}
-
 	void glfwWindowMouseButtonCallBack(GLFWwindow* window, int button, int action, int mods) {
 		auto& inputManager = Engine::GetInstance().GetInputManager();
 		if (action == GLFW_PRESS) {
@@ -33,19 +32,18 @@ namespace engine {
 			inputManager.SetMouseButtonPressed(button, false);
 		}
 	}
-
 	void glfwWindowCursorPosCallBack(GLFWwindow* window, double xpos, double ypos) {
 		auto& inputManager = Engine::GetInstance().GetInputManager();
 		inputManager.SetMouseOldPosition(inputManager.GetMouseCurrentPosition().x, inputManager.GetMouseCurrentPosition().y);
 		inputManager.SetMouseCurrentPosition(static_cast<float>(xpos), static_cast<float>(ypos));
 	}
 }
+
 engine::Engine& engine::Engine::GetInstance()
 {
 	static Engine engine;
 	return engine;
 }
-
 bool engine::Engine::Init(int width,int height)
 {
 	if (!m_application) {
@@ -112,19 +110,20 @@ void engine::Engine::Run()
 		float aspect = static_cast<float>(windowWidth) / static_cast<float>(windowHeight);
 
 		CameraData cameraData;
+		std::vector<engine::LightData> lights;
+		if (!m_currentScene) { spdlog::error("current_scene not set"); return; }
 		auto mainCamera = m_currentScene->GetMainCamera();
+
 		 if (mainCamera) {
 			 auto cameraComponent = mainCamera->GetComponent<CameraComponent>();
 			 if (cameraComponent) {
 				 cameraData.viewMat = cameraComponent->GetViewMatrix();
 				 cameraData.projectionMat = cameraComponent->GetProjectionMatrix(aspect);
 			 }
-			 else {
-				 spdlog::warn("mainCamera does not have CameraComponent");
-			 }
 			 
 		 }
-		m_renderQueue.Draw(m_graphicAPI, cameraData);
+		lights = m_currentScene->CollectLight();
+		m_renderQueue.Draw(m_graphicAPI, cameraData,lights);
 
 		glfwSwapBuffers(m_window);
 

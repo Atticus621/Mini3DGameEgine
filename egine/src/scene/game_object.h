@@ -34,16 +34,15 @@ namespace engine {
 					return static_cast<T*>(component.get());
 				}
 			}
-			spdlog::warn("GameObject {} does not have component of type {}", m_name, typeid(T).name());
 			return nullptr;
 		}
 		const std::string& GetName()const;
 		GameObject* GetParent();
-		glm::vec3 GetPosition()const;
+		glm::vec3 GetLocalPosition()const;
+		glm::vec3 GetWorldPosition()const;
 		glm::quat GetRotation()const;
 		glm::vec3 GetScale()const;
 		bool IsAlive()const;
-
 		glm::mat4 GetLocalTransform()const;
 		glm::mat4 GetWorldTransform()const;
 
