@@ -1,7 +1,7 @@
 #include "scene.h"
 #include "comman.h"
 #include "scene/components/light_component.h"
-
+#include "render/mesh.h"
 void engine::Scene::Update(float delta)
 {
     for (auto& child : m_gameObjects) {
@@ -23,8 +23,18 @@ void engine::Scene::Clear()
 
 engine::GameObject* engine::Scene::CreateGameObject(const std::string& name,engine::GameObject* parent)
 {
+    static int tempName = 0;
 	auto gameObject = new GameObject();
-    gameObject->SetName(name);
+    if (name.empty()) {
+        spdlog::warn("name is empty,will use temp name{}", tempName);
+        gameObject->SetName(std::to_string(tempName));
+        tempName++;
+    }
+    else {
+        gameObject->SetName(name);
+    }
+    
+    gameObject->m_scene = this;
 	SetParent(gameObject, parent);
     return gameObject;
 }

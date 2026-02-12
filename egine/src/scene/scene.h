@@ -21,6 +21,7 @@ namespace engine {
 		{
 			auto gameObject = new T();
 			gameObject->SetName(name);
+			gameObject->m_scene = this;
 			SetParent(gameObject, parent);
 			return gameObject;
 		}

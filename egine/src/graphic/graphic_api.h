@@ -11,7 +11,7 @@ namespace engine{
 	class GraphicAPI {
 	public:
 		std::shared_ptr<ShaderProgram> CreateShaderProgram(const std::string& vertexShaderSource, const std::string& fragmentShaderSource);
-
+		std::shared_ptr<ShaderProgram>& GetDefaultShaderProgram();
 		bool Init();
 		void BindShaderProgram(ShaderProgram* shaderProgram);
 		void BindMaterial(Material* material);
@@ -24,5 +24,8 @@ namespace engine{
 
 		void BindMesh(Mesh* mesh);
 		void DrawMesh(Mesh* mesh);
+
+	private:
+		std::shared_ptr<ShaderProgram> m_defaultShaderProgram;
 	};
 }

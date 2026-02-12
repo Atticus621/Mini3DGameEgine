@@ -59,6 +59,61 @@ std::shared_ptr<engine::ShaderProgram> engine::GraphicAPI::CreateShaderProgram(c
     return std::make_shared<ShaderProgram>(shaderProgramID);
 }
 
+std::shared_ptr<engine::ShaderProgram>& engine::GraphicAPI::GetDefaultShaderProgram()
+{
+    if (!m_defaultShaderProgram) {
+        std::string vertexShader = R"(#version 300 es
+    precision mediump float;
+    layout (location = 0) in vec3 position;
+    layout (location = 1) in vec3 color;
+    layout (location = 2) in vec2 texCoord;
+    layout (location = 3) in vec3 normal;
+
+    out vec2 vTexCoord;
+    out vec3 vNormal;
+    out vec3 vFragPos;
+
+    uniform mat4 uModel;
+    uniform mat4 uView;
+    uniform mat4 uProjection;
+
+    void main() {
+        vFragPos = vec3(uModel * vec4(position,1.0));
+        vNormal = mat3(transpose(inverse(uModel))) *normal;
+        vTexCoord=texCoord;
+        gl_Position = uProjection * uView * uModel * vec4(position,1.0);
+    }
+)";
+        std::string fragmentShaderSource = R"(#version 300 es
+    precision mediump float;
+
+    struct Light{
+        vec3 position;
+        vec3 color;
+    };
+    uniform Light uLight;
+    uniform sampler2D baseColorTexture;
+    
+    in vec2 vTexCoord;
+    in vec3 vNormal;
+    in vec3 vFragPos;
+    out vec4 FragColor;
+
+    void main() {
+        vec3 norm = normalize(vNormal);
+        vec3 lightDir = normalize(uLight.position - vFragPos);
+        float diff = max(dot(norm,lightDir),0.0);
+        vec3 diffuse = diff * uLight.color;
+
+        vec4 texColor = texture(baseColorTexture,vTexCoord);
+        FragColor = texColor * vec4(diffuse,1.0);
+    }
+)";
+        m_defaultShaderProgram = CreateShaderProgram(vertexShader, fragmentShaderSource);
+    }
+    return m_defaultShaderProgram;
+}
+
 bool engine::GraphicAPI::Init()
 {
 	glEnable(GL_DEPTH_TEST);

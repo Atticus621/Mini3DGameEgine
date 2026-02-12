@@ -10,6 +10,7 @@ namespace engine {
 
 	class Mesh {
 	public:
+		Mesh() = default;
 		Mesh(const VertexLayout& vertexLayout, const std::vector<float>& vertices, const std::vector<uint32_t>& indices);
 		Mesh(const VertexLayout& vertexLayout, const std::vector<float>& vertices);
 		Mesh(const Mesh&) = delete;

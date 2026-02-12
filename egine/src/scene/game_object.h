@@ -12,7 +12,7 @@
 
 namespace engine {
 
-
+	class Scene;
 	class GameObject {
 	public:
 		virtual ~GameObject() = default;
@@ -21,7 +21,7 @@ namespace engine {
 
 		void MarkForDestory();
 		void SetName(const std::string& name);
-		void SetPosition(const glm::vec3& position);
+		void SetPosition(const glm::vec3& position=glm::vec3(0.0f,0.0f,0.0f));
 		void SetRotation(const glm::quat& rotation);
 		void SetScale(const glm::vec3& scale);
 		void AddComponent(Component* component);
@@ -36,6 +36,7 @@ namespace engine {
 			}
 			return nullptr;
 		}
+
 		const std::string& GetName()const;
 		GameObject* GetParent();
 		glm::vec3 GetLocalPosition()const;
@@ -45,7 +46,10 @@ namespace engine {
 		bool IsAlive()const;
 		glm::mat4 GetLocalTransform()const;
 		glm::mat4 GetWorldTransform()const;
+		static GameObject* LoadGLTF(const std::string& path);
 
+		Scene* GetScene();
+		bool SetParent(GameObject* parent);
 	protected:
 		GameObject() = default;
 
@@ -55,6 +59,7 @@ namespace engine {
 		std::vector<std::unique_ptr<GameObject>> m_children;
 		std::vector<std::unique_ptr<Component>> m_components;
 		bool m_isAlive = true;
+		Scene* m_scene = nullptr;
 		friend class Scene;
 	private:
 		glm::vec3 m_position{ 0.0f,0.0f,0.0f };

@@ -2,7 +2,6 @@
 #include "engine.h"
 
 
-#define CGLTF_IMPLEMENTATION
 #include <cgltf.h>
 
 engine::Mesh::Mesh(const VertexLayout& vertexLayout, const std::vector<float>& vertices, const std::vector<uint32_t>& indices)
