@@ -133,5 +133,18 @@
     <None Include="assets\shaders\fragment_shader.glsl" />
     <None Include="assets\shaders\vertex_shader.glsl" />
     <None Include="assets\materials\break.mat" />
+    <None Include="assets\materials\duck.mat" />
+    <None Include="assets\models\Duck.gltf" />
+    <None Include="assets\models\Duck0.bin">
+      <Filter>资源文件</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="assets\textures\break.jpg">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="assets\models\DuckCM.png">
+      <Filter>资源文件</Filter>
+    </Image>
   </ItemGroup>
 </Project>

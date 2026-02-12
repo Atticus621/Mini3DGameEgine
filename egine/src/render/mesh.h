@@ -2,6 +2,9 @@
 
 #include <GLES3/gl3.h>
 #include <graphic/vertex_layout.h>
+#include <memory>
+#include <vector>
+#include <string>
 
 namespace engine {
 
@@ -14,6 +17,8 @@ namespace engine {
 
 		void Bind();
 		void Draw();
+
+		static std::shared_ptr<Mesh> Load(const std::string& filePath);
 
 		void logInfo();
 	private:

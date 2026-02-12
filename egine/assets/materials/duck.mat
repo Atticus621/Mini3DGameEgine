@@ -7,7 +7,7 @@
     "textures": [
       {
         "name": "baseColorTexture",
-        "path": "textures/break.jpg"
+        "path": "models/duckCM.png"
       }
     ]
   }

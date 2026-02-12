@@ -13,6 +13,10 @@ namespace engine {
 		GLint count;
 		GLenum dataType;
 		uint32_t offset;
+
+		static constexpr int PositionAttributeLocation = 0;
+		static constexpr int ColorAttributeLocation = 1;
+		static constexpr int UVAttributeLocation = 2;
 	};
 
 	struct VertexLayout {

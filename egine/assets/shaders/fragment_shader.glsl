@@ -1,14 +1,14 @@
 #version 300 es
     precision mediump float;
 
-    in vec3 vColor;
+
     in vec2 vTexCoord;
 
-    uniform sampler2D breakTexture;
+    uniform sampler2D baseColorTexture;
     
     out vec4 FragColor;
 
     void main() {
-        vec4 texColor = texture(breakTexture,vTexCoord);
-        FragColor = vec4(vColor, 1.0) * texColor;
+        vec4 texColor = texture(baseColorTexture,vTexCoord);
+        FragColor = texColor;
     }

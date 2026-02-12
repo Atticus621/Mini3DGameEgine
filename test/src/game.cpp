@@ -99,6 +99,13 @@ bool Game::Init()
 	cubeC->SetPosition({ -0.5f,0.0f,0.0f });
 	cubeC->SetScale({ 0.5f,0.5f,0.5f });
 
+	auto duckMesh = engine::Mesh::Load("models\\Duck.gltf");
+	auto duckMaterial = engine::Material::Load("materials\\duck.mat");
+	auto duck = m_currentScene->CreateGameObject("Duck");
+	duck->AddComponent(new engine::MeshComponent(duckMaterial, duckMesh));
+	duck->SetPosition({ 0.0f,0.0f,1.0f });
+    duck->SetScale({ 0.006,0.006,0.008 });
+
 	engine::Engine::GetInstance().setCurrentScene(m_currentScene);
     return true;
 }

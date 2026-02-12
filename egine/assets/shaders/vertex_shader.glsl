@@ -3,7 +3,7 @@
     layout (location = 1) in vec3 color;
     layout (location = 2) in vec2 texCoord;
 
-    out vec3 vColor;
+
     out vec2 vTexCoord;
 
     uniform mat4 uModel;
@@ -12,7 +12,6 @@
 
     void main() {
 
-        vColor=color;
         vTexCoord=texCoord;
         gl_Position = uProjection * uView * uModel * vec4(position,1.0);
     }
