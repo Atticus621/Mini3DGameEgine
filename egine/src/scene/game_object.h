@@ -20,6 +20,7 @@ namespace engine {
 		virtual void Update(float delta);
 
 		void MarkForDestory();
+		void SetActive(bool flag);
 		void SetName(const std::string& name);
 		void SetPosition(const glm::vec3& position=glm::vec3(0.0f,0.0f,0.0f));
 		void SetRotation(const glm::quat& rotation);
@@ -44,6 +45,7 @@ namespace engine {
 		glm::quat GetRotation()const;
 		glm::vec3 GetScale()const;
 		bool IsAlive()const;
+		bool IsActive()const;
 		glm::mat4 GetLocalTransform()const;
 		glm::mat4 GetWorldTransform()const;
 		static GameObject* LoadGLTF(const std::string& path);
@@ -59,6 +61,7 @@ namespace engine {
 		std::vector<std::unique_ptr<GameObject>> m_children;
 		std::vector<std::unique_ptr<Component>> m_components;
 		bool m_isAlive = true;
+		bool m_isActive = true;
 		Scene* m_scene = nullptr;
 		friend class Scene;
 	private:

@@ -96,6 +96,11 @@ void engine::AnimationComponet::SetClip(engine::AnimationClip*)
 
 void engine::AnimationComponet::RegisterClip(const std::string& name, const std::shared_ptr<engine::AnimationClip>& clip)
 {
+    static int temName = 0;
+    if (name.empty()) {
+        m_clips["Clip"+std::to_string(temName)] = clip;
+        temName++;
+    }
     m_clips[name] = clip;
 }
 

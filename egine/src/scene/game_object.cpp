@@ -21,6 +21,7 @@
 #include <graphic/vertex_layout.h>
 void engine::GameObject::Update(float delta)
 {
+	if (!m_isActive)return;
     for (auto& component : m_components) {
 		component->Update(delta);
     }
@@ -72,6 +73,11 @@ void engine::GameObject::AddComponent(engine::Component* component)
 bool engine::GameObject::IsAlive() const
 {
     return m_isAlive;
+}
+
+bool engine::GameObject::IsActive() const
+{
+	return m_isActive;
 }
 
 glm::mat4 engine::GameObject::GetLocalTransform() const
@@ -393,7 +399,65 @@ engine::GameObject* engine::GameObject::LoadGLTF(const std::string& path)
 			trackIndexOf[node] = idx;
 			return clip->tracks[idx];
 			};
+		for (cgltf_size ci = 0; ci < anim.channels_count; ci++) {
+			auto& channel = anim.channels[ci];
+			auto sampler = channel.sampler;
 
+			if (!channel.target_node || !sampler || !sampler->input || !sampler->output) {
+				continue;
+			}
+			std::vector<float> times;
+			ReadTimes(sampler->input, times);
+			auto& track = GetOrCreateTrack(channel.target_node);
+
+			switch (channel.target_path)
+			{
+			case cgltf_animation_path_type_translation:
+			{
+				std::vector<glm::vec3> values;
+				ReadOutputVec3(sampler->output, values);
+				track.positions.resize(times.size());
+				for (cgltf_size i = 0; i < times.size(); i++) {
+					track.positions[i].time = times[i];
+					track.positions[i].value = values[i];
+				}
+			}
+			break;
+			case cgltf_animation_path_type_rotation:
+			{
+				std::vector<glm::quat> values;
+				ReadOutputQuat(sampler->output, values);
+				track.rotations.resize(times.size());
+				for (cgltf_size i = 0; i < times.size(); i++) {
+					track.rotations[i].time = times[i];
+					track.rotations[i].value = values[i];
+				}
+			}
+			break;
+			case cgltf_animation_path_type_scale:
+			{
+				std::vector<glm::vec3> values;
+				ReadOutputVec3(sampler->output, values);
+				track.scales.resize(times.size());
+				for (cgltf_size i = 0; i < times.size(); i++) {
+					track.scales[i].time = times[i];
+					track.scales[i].value = values[i];
+				}
+			}
+			break;
+			default:
+				break;
+			}
+			clip->duration = glm::max(clip->duration, times.back());
+		}
+		clips.push_back(std::move(clip));
+	}
+	if (!clips.empty()) {
+		auto animCom = new AnimationComponet();
+		obj->AddComponent(animCom);
+		for (auto& clip : clips) {
+			animCom->RegisterClip(clip->name , clip);
+		}
 	}
 	cgltf_free(data);
 	return obj;
@@ -437,6 +501,13 @@ void engine::GameObject::MarkForDestory()
 {
 	m_isAlive = false;
 }
+
+void engine::GameObject::SetActive(bool flag)
+{
+	m_isActive = flag;
+}
+
+
 
 engine::GameObject* engine::GameObject::GetParent()
 {
