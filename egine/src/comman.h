@@ -7,6 +7,7 @@ namespace engine {
 	{
 		glm::mat4 viewMat{ 1.0f };
 		glm::mat4 projectionMat{ 1.0f };
+		glm::vec3 position{ 0.0f };
 	};
 
 	struct LightData {

@@ -8,6 +8,8 @@
 #include "render/render_queue.h"
 #include "scene/scene.h"
 #include "io/file_system.h"
+#include "graphic/texture.h"
+
 
 struct GLFWwindow;
 namespace engine {
@@ -32,7 +34,7 @@ namespace engine {
 		GraphicAPI& GetGraphicAPI();
 		RenderQueue& GetRenderQueue();
 		FileSystem& GetFileSystem();
-
+		TextureManager& GetTextureManager();
 		Scene* GetCurrentScene() const { return m_currentScene.get(); }
 		void setCurrentScene(Scene* scene) { m_currentScene.reset(scene); }
 	private:
@@ -44,7 +46,7 @@ namespace engine {
 		GraphicAPI m_graphicAPI;
 		RenderQueue m_renderQueue;
 		FileSystem m_fileSystem;
-
+		TextureManager m_TextureManager;
 		std::unique_ptr<Scene> m_currentScene;
 
 	private:

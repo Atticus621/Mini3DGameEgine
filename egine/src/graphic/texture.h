@@ -2,7 +2,7 @@
 #include "GLES3/gl3.h"
 #include <memory>
 #include <string>
-
+#include <unordered_map>
 namespace engine
 {
 	class Texture
@@ -21,5 +21,12 @@ namespace engine
 		int m_width = 0;
 		int m_height = 0;
 		int m_channels = 0;
+	};
+
+	class TextureManager {
+	public:
+		std::shared_ptr<Texture> GetTexture(const std::string& path);
+	private:
+		std::unordered_map<std::string, std::shared_ptr<Texture>> m_textureMap;
 	};
 };

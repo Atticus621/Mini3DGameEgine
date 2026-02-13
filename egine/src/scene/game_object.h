@@ -47,7 +47,7 @@ namespace engine {
 		glm::mat4 GetLocalTransform()const;
 		glm::mat4 GetWorldTransform()const;
 		static GameObject* LoadGLTF(const std::string& path);
-
+		GameObject* GetChild(const std::string& name);
 		Scene* GetScene();
 		bool SetParent(GameObject* parent);
 	protected:

@@ -3,6 +3,7 @@
 #include "render/material.h"
 #include "graphic/texture.h"
 #include "scene/components/mesh_component.h"
+#include "scene/components/animation_component.h"
 #include "render/mesh.h"
 
 #ifndef CGLTF_IMPLEMENTATION
@@ -93,17 +94,71 @@ glm::mat4 engine::GameObject::GetWorldTransform() const
 		return GetLocalTransform();
     }
 }
+// 读取单个标量（float）
+auto ReadScalar = [](cgltf_accessor* acc, cgltf_size index)
+	{
+		float res = 0.0f;
+		cgltf_accessor_read_float(acc, index, &res, 1);
+		return res;
+	};
 
+// 读取单个三维向量（glm::vec3）
+auto ReadVec3 = [](cgltf_accessor* acc, cgltf_size index)
+	{
+		glm::vec3 res;
+		cgltf_accessor_read_float(acc, index, glm::value_ptr(res), 3);
+		return res;
+	};
+
+// 读取单个四元数（glm::quat），注意顺序转换：glTF(x,y,z,w) → GLM(w,x,y,z)
+auto ReadQuat = [](cgltf_accessor* acc, cgltf_size index)
+	{
+		float res[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
+		cgltf_accessor_read_float(acc, index, res, 4);
+		return glm::quat(res[3], res[0], res[1], res[2]);
+	};
+
+// 批量读取所有时间戳（标量数组）
+auto ReadTimes = [](cgltf_accessor* acc, std::vector<float>& outTimes)
+	{
+		outTimes.resize(acc->count);
+		for (cgltf_size i = 0; i < acc->count; ++i)
+		{
+			outTimes[i] = ReadScalar(acc, i);
+		}
+	};
+
+// 批量读取所有 vec3 关键帧（位置/缩放数组）
+auto ReadOutputVec3 = [](cgltf_accessor* acc, std::vector<glm::vec3>& outValues)
+	{
+		outValues.resize(acc->count);
+		for (cgltf_size i = 0; i < acc->count; ++i)
+		{
+			outValues[i] = ReadVec3(acc, i);
+		}
+	};
+
+// 批量读取所有 quat 关键帧（旋转数组）——补全的函数
+auto ReadOutputQuat = [](cgltf_accessor* acc, std::vector<glm::quat>& outValues)
+	{
+		outValues.resize(acc->count);
+		for (cgltf_size i = 0; i < acc->count; ++i)
+		{
+			outValues[i] = ReadQuat(acc, i);
+		}
+	};
 void ParseGLTFNode(cgltf_node* node, engine::GameObject* parent, const std::filesystem::path& path) {
 	engine::GameObject* obj;
 	
 	if (!node->name)
 	{
+		spdlog::info("node has no name");
 		obj = parent->GetScene()->CreateGameObject(std::string(""), parent);
 	}
 	else obj = parent->GetScene()->CreateGameObject(node->name, parent);
 	
 	if (node->has_matrix) {
+		spdlog::info("node has matrix");
 		auto mat = glm::make_mat4(node->matrix);
 
 		glm::vec3 translation, scale, skew;
@@ -117,7 +172,7 @@ void ParseGLTFNode(cgltf_node* node, engine::GameObject* parent, const std::file
 		obj->SetScale(scale);
 	}
 	else {
-		
+		spdlog::warn("node has no matrix");
 		if (node->has_translation) {obj->SetPosition(glm::vec3(node->translation[0], node->translation[1], node->translation[2]));}
 		if (node->has_rotation) {obj->SetRotation(glm::quat(node->rotation[3],node->rotation[0], node->rotation[1], node->rotation[2]));}
 		if (node->has_scale) { obj->SetScale(glm::vec3(node->scale[0], node->scale[1], node->scale[2])); }
@@ -134,6 +189,7 @@ void ParseGLTFNode(cgltf_node* node, engine::GameObject* parent, const std::file
 		};
 
 	if (node->mesh) {
+		spdlog::warn("node has no mesh");
 		std::shared_ptr<engine::Mesh> mesh = nullptr;
 		std::vector<float> vertices;
 		std::vector<uint32_t> indices;
@@ -255,20 +311,24 @@ void ParseGLTFNode(cgltf_node* node, engine::GameObject* parent, const std::file
 			if (primitive.material) {
 				auto material = primitive.material;
 				if (material->has_pbr_metallic_roughness) {
+					spdlog::info("material has pbr_metallic_roughness");
 					auto pbr = material->pbr_metallic_roughness;
 					auto texture = pbr.base_color_texture.texture;
 					if (texture && texture->image) {
+						spdlog::info("use texture image "+std::string(texture->image->uri));
 						auto imagePaht = path / std::string(texture->image->uri);
-						auto tex =engine::Texture::load(imagePaht.string());
+						auto tex = engine::Engine::GetInstance().GetTextureManager().GetTexture(imagePaht.string());
 						materialPtr->SetParam("baseColorTexture", tex);
 					}
 				}
 				else if (material->has_pbr_specular_glossiness) {
+					spdlog::info("material has pbr_specular_glossiness");
 					auto pbr = material->pbr_specular_glossiness;
 					auto texture = pbr.diffuse_texture.texture;
 					if (texture && texture->image) {
+						spdlog::info("use texture image " + std::string(texture->image->uri));
 						auto imagePaht = path / std::string(texture->image->uri);
-						auto tex = engine::Texture::load(imagePaht.string());
+						auto tex = engine::Engine::GetInstance().GetTextureManager().GetTexture(imagePaht.string());
 						materialPtr->SetParam("baseColorTexture", tex);
 					}
 				}
@@ -313,8 +373,46 @@ engine::GameObject* engine::GameObject::LoadGLTF(const std::string& path)
 		ParseGLTFNode(node, obj, relativeFolderPath);
 		
 	}
+	std::vector<std::shared_ptr<engine::AnimationClip>> clips;
+	for (cgltf_size ai = 0; ai < data->animations_count; ai++) {
+		auto& anim = data->animations[ai];
+		auto clip = std::make_shared<engine::AnimationClip>();
+		clip->name = anim.name ? anim.name : "animation"+std::to_string(ai);
+		clip->duration = 0.0f;
+
+		std::unordered_map<cgltf_node*, size_t> trackIndexOf;
+		auto GetOrCreateTrack = [&](cgltf_node* node)->engine::TransformTrack& {
+			auto it = trackIndexOf.find(node);
+			if (it != trackIndexOf.end()) {
+				return clip->tracks[it->second];
+			}
+			engine::TransformTrack track;
+			track.name = node->name ? node->name : "no nmae";
+			clip->tracks.push_back(track);
+			size_t idx = clip->tracks.size() - 1;
+			trackIndexOf[node] = idx;
+			return clip->tracks[idx];
+			};
+
+	}
 	cgltf_free(data);
 	return obj;
+}
+
+engine::GameObject* engine::GameObject::GetChild(const std::string& name)
+{
+	if (m_name == name) {
+		return this;
+	}
+	else {
+		for (auto& child : m_children) {
+			auto result =child->GetChild(name);
+			if (result != nullptr)
+				return result;
+		}
+	}
+
+	return nullptr;
 }
 
 engine::Scene* engine::GameObject::GetScene()

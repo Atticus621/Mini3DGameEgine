@@ -119,6 +119,7 @@ void engine::Engine::Run()
 			 if (cameraComponent) {
 				 cameraData.viewMat = cameraComponent->GetViewMatrix();
 				 cameraData.projectionMat = cameraComponent->GetProjectionMatrix(aspect);
+				 cameraData.position = mainCamera->GetWorldPosition();
 			 }
 			 
 		 }
@@ -169,5 +170,10 @@ engine::RenderQueue& engine::Engine::GetRenderQueue()
 engine::FileSystem& engine::Engine::GetFileSystem()
 {
 	return m_fileSystem;
+}
+
+engine::TextureManager& engine::Engine::GetTextureManager()
+{
+	return m_TextureManager;
 }
 

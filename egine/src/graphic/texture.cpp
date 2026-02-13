@@ -9,7 +9,7 @@ engine::Texture::Texture(int width, int height, int channels, unsigned char* dat
 	glGenTextures(1, &m_textureID);
 	glBindTexture(GL_TEXTURE_2D, m_textureID);
 
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0,
+    glTexImage2D(GL_TEXTURE_2D, 0, channels == 4 ? GL_RGBA : GL_RGB, width, height, 0,
 		channels == 4 ? GL_RGBA : GL_RGB, GL_UNSIGNED_BYTE, data);
 
 	glGenerateMipmap(GL_TEXTURE_2D);
@@ -72,5 +72,20 @@ std::shared_ptr<engine::Texture> engine::Texture::load(const std::string& filePa
 	else {
 		spdlog::error("Failed to load image: {}", path.string());
 		return nullptr;
+	}
+}
+
+std::shared_ptr<engine::Texture> engine::TextureManager::GetTexture(const std::string& path)
+{
+	auto result =m_textureMap.find(path);
+	if (result != m_textureMap.end()) {
+		if (!result->second) spdlog::error("GetTexture return nullptr");
+		return result->second;
+	}
+	else {
+		auto ptr =engine::Texture::load(path);
+		if(!ptr)if (!result->second) spdlog::error("GetTexture return nullptr");
+		m_textureMap[path] = ptr;
+		return ptr;
 	}
 }

@@ -85,30 +85,48 @@ std::shared_ptr<engine::ShaderProgram>& engine::GraphicAPI::GetDefaultShaderProg
     }
 )";
         std::string fragmentShaderSource = R"(#version 300 es
-    precision mediump float;
+precision mediump float;
 
-    struct Light{
-        vec3 position;
-        vec3 color;
-    };
-    uniform Light uLight;
-    uniform sampler2D baseColorTexture;
+struct Light{
+    vec3 position;
+    vec3 color;
+};
+uniform Light uLight;
+uniform sampler2D baseColorTexture;
+uniform vec3 uCameraPosition;
+
+in vec2 vTexCoord;
+in vec3 vNormal;
+in vec3 vFragPos;
+out vec4 FragColor;
+
+void main() {
+    // 归一化法向量
+    vec3 norm = normalize(vNormal);
+    // 计算光源方向并归一化
+    vec3 lightDir = normalize(uLight.position - vFragPos);
     
-    in vec2 vTexCoord;
-    in vec3 vNormal;
-    in vec3 vFragPos;
-    out vec4 FragColor;
-
-    void main() {
-        vec3 norm = normalize(vNormal);
-        vec3 lightDir = normalize(uLight.position - vFragPos);
-        float diff = max(dot(norm,lightDir),0.0);
-        vec3 diffuse = diff * uLight.color;
-
-        vec4 texColor = texture(baseColorTexture,vTexCoord);
-        FragColor = texColor * vec4(diffuse,1.0);
-    }
-)";
+    // 漫反射计算
+    float diff = max(dot(norm, lightDir), 0.0);
+    vec3 diffuse = diff * uLight.color;
+    
+    // 镜面反射计算
+    vec3 viewDir = normalize(uCameraPosition - vFragPos);
+    // 修复1：LightDir → lightDir（大小写错误）
+    vec3 reflectDir = reflect(-lightDir, norm);
+    // 修复2：32 → 32.0（pow需要浮点参数）
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32.0);
+    float specularStrength = 0.5;
+    vec3 specular = specularStrength * spec * uLight.color;
+    
+    // 修复3：声明result变量（vec3类型，匹配diffuse/specular）
+    vec3 result = diffuse + specular;
+    
+    // 采样纹理颜色
+    vec4 texColor = texture(baseColorTexture, vTexCoord);
+    // 最终颜色 = 纹理颜色 * 光照颜色（加上alpha通道）
+    FragColor = texColor * vec4(result, 1.0);
+})";
         m_defaultShaderProgram = CreateShaderProgram(vertexShader, fragmentShaderSource);
     }
     return m_defaultShaderProgram;

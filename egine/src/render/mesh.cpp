@@ -80,9 +80,81 @@ void engine::Mesh::Draw()
 	}
 }
 
+std::shared_ptr<engine::Mesh> engine::Mesh::CreateCubeMesh() {
+	// 顶点数据：位置(3) + 颜色(3) + 纹理坐标(2) + 法线(3)
+	std::vector<float> vertices{
+		// 正面 (front face) - 法线：(0,0,1)
+		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 0.0f,  1.0f, 1.0f,   0.0f, 0.0f, 1.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f, 1.0f, 0.0f,  0.0f, 1.0f,   0.0f, 0.0f, 1.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, 1.0f, 0.0f,  0.0f, 0.0f,   0.0f, 0.0f, 1.0f,
+		 0.5f, -0.5f,  0.5f,  0.0f, 0.0f, 1.0f,  1.0f, 0.0f,   0.0f, 0.0f, 1.0f,
+
+		 // 顶面 (top face) - 法线：(0,1,0)
+		  0.5f,  0.5f, -0.5f,  1.0f, 0.0f, 0.0f,  1.0f, 1.0f,   0.0f, 1.0f, 0.0f,
+		 -0.5f,  0.5f, -0.5f,  0.0f, 1.0f, 0.0f,  0.0f, 1.0f,   0.0f, 1.0f, 0.0f,
+		 -0.5f,  0.5f,  0.5f,  0.0f, 1.0f, 0.0f,  0.0f, 0.0f,   0.0f, 1.0f, 0.0f,
+		  0.5f,  0.5f,  0.5f,  0.0f, 0.0f, 1.0f,  1.0f, 0.0f,   0.0f, 1.0f, 0.0f,
+
+		  // 背面 (back face) - 法线：(0,0,-1)
+		   0.5f, -0.5f, -0.5f,  1.0f, 0.0f, 0.0f,  1.0f, 0.0f,   0.0f, 0.0f, -1.0f,
+		  -0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 0.0f,  0.0f, 0.0f,   0.0f, 0.0f, -1.0f,
+		  -0.5f,  0.5f, -0.5f,  0.0f, 1.0f, 0.0f,  0.0f, 1.0f,   0.0f, 0.0f, -1.0f,
+		   0.5f,  0.5f, -0.5f,  0.0f, 0.0f, 1.0f,  1.0f, 1.0f,   0.0f, 0.0f, -1.0f,
+
+		   // 底面 (bottom face) - 法线：(0,-1,0)
+			0.5f, -0.5f,  0.5f,  1.0f, 0.0f, 0.0f,  1.0f, 1.0f,   0.0f, -1.0f, 0.0f,
+		   -0.5f, -0.5f,  0.5f,  0.0f, 1.0f, 0.0f,  0.0f, 1.0f,   0.0f, -1.0f, 0.0f,
+		   -0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 0.0f,  0.0f, 0.0f,   0.0f, -1.0f, 0.0f,
+			0.5f, -0.5f, -0.5f,  0.0f, 0.0f, 1.0f,  1.0f, 0.0f,   0.0f, -1.0f, 0.0f,
+
+			// 左面 (left face) - 法线：(-1,0,0)
+			-0.5f,  0.5f, -0.5f,  1.0f, 0.0f, 0.0f,  1.0f, 1.0f,   -1.0f, 0.0f, 0.0f,
+			-0.5f,  0.5f,  0.5f,  0.0f, 1.0f, 0.0f,  0.0f, 1.0f,   -1.0f, 0.0f, 0.0f,
+			-0.5f, -0.5f,  0.5f,  0.0f, 1.0f, 0.0f,  0.0f, 0.0f,   -1.0f, 0.0f, 0.0f,
+			-0.5f, -0.5f, -0.5f,  0.0f, 0.0f, 1.0f,  1.0f, 0.0f,   -1.0f, 0.0f, 0.0f,
+
+			// 右面 (right face) - 法线：(1,0,0)
+			 0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 0.0f,  1.0f, 1.0f,   1.0f, 0.0f, 0.0f,
+			 0.5f,  0.5f, -0.5f,  0.0f, 1.0f, 0.0f,  0.0f, 1.0f,   1.0f, 0.0f, 0.0f,
+			 0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 0.0f,  0.0f, 0.0f,   1.0f, 0.0f, 0.0f,
+			 0.5f, -0.5f,  0.5f,  0.0f, 0.0f, 1.0f,  1.0f, 0.0f,   1.0f, 0.0f, 0.0f
+	};
+
+	std::vector<uint32_t> indices{
+		0, 1, 2,  0, 2, 3,   // 正面
+		4, 5, 6,  4, 6, 7,   // 顶面
+		8, 9,10,  8,10,11,   // 背面
+		12,13,14, 12,14,15,  // 底面
+		16,17,18, 16,18,19,  // 左面
+		20,21,22, 20,22,23   // 右面
+	};
+
+	engine::VertexLayout vertexLayout;
+	// 位置：location 0，3个float，偏移0
+	vertexLayout.elements.push_back({ 0, 3, GL_FLOAT, 0 });
+	// 颜色：location 1，3个float，偏移 3*sizeof(float)
+	vertexLayout.elements.push_back({ 1, 3, GL_FLOAT, 3 * sizeof(float) });
+	// 纹理坐标：location 2，2个float，偏移 6*sizeof(float)
+	vertexLayout.elements.push_back({ 2, 2, GL_FLOAT, 6 * sizeof(float) });
+	// 法线向量：location 3，3个float，偏移 8*sizeof(float)（新增！）
+	vertexLayout.elements.push_back({ 3, 3, GL_FLOAT, 8 * sizeof(float) });
+	// 步长更新：原8个float → 11个float（3+3+2+3）
+	vertexLayout.stride = 11 * sizeof(float);
+
+	vertexLayout.logInfo();
+
+	auto mesh = std::make_shared<engine::Mesh>(vertexLayout, vertices, indices);
+
+	return mesh;
+}
+void engine::Mesh::logInfo()
+{
+	spdlog::info("VAO IS {}, VBO IS {}, EBO IS{},Index count is {},vertex count is {}", m_VAO, m_VBO, m_EBO, m_indexCount, m_vertexCount);
+}
+#if 0
 std::shared_ptr<engine::Mesh> engine::Mesh::Load(const std::string& filePath)
 {
-	auto contents = engine::Engine::GetInstance().GetFileSystem().LoadAssetsFileText(filePath);    
+	auto contents = engine::Engine::GetInstance().GetFileSystem().LoadAssetsFileText(filePath);
 	if (contents.empty())
 	{
 		spdlog::error("Failed to load mesh file: {}", filePath);
@@ -98,8 +170,8 @@ std::shared_ptr<engine::Mesh> engine::Mesh::Load(const std::string& filePath)
 		return nullptr;
 	}
 	auto binPath = engine::Engine::GetInstance().GetFileSystem().GetAssetsPath() / filePath;
-	result = cgltf_load_buffers(&options, data, binPath.remove_filename().string().c_str());       
-	if(result != cgltf_result_success)
+	result = cgltf_load_buffers(&options, data, binPath.remove_filename().string().c_str());
+	if (result != cgltf_result_success)
 	{
 		spdlog::error("Failed to load buffers for mesh file: {}, error code: {}", filePath, static_cast<int>(result));
 		cgltf_free(data);
@@ -199,13 +271,13 @@ std::shared_ptr<engine::Mesh> engine::Mesh::Load(const std::string& filePath)
 					vertexLayout.elements.push_back(element);
 				}
 
-			}   if(!accessors[engine::VertexElemnet::PositionAttributeLocation])
+			}   if (!accessors[engine::VertexElemnet::PositionAttributeLocation])
 			{
 				spdlog::warn("Mesh primitive has no position attribute, skipping");
 				continue;
 			}
 			auto vertexCount = accessors[engine::VertexElemnet::PositionAttributeLocation]->count;
-			vertices.resize(vertexCount* vertexLayout.stride / sizeof(float));
+			vertices.resize(vertexCount * vertexLayout.stride / sizeof(float));
 			for (size_t v = 0; v < vertexCount; ++v)
 			{
 				float* vertexPtr = vertices.data() + v * vertexLayout.stride / sizeof(float);
@@ -215,7 +287,7 @@ std::shared_ptr<engine::Mesh> engine::Mesh::Load(const std::string& filePath)
 					}
 				}
 			}
-			if(primitive.indices)
+			if (primitive.indices)
 			{
 				auto indexCount = primitive.indices->count;
 				indices.resize(indexCount);
@@ -232,87 +304,16 @@ std::shared_ptr<engine::Mesh> engine::Mesh::Load(const std::string& filePath)
 			if (mesh) {
 				break;
 			}
-		
+
 		}
 		if (mesh)
 		{
 			break;
 		}
 	}
-	
+
 	cgltf_free(data);
 	return mesh;
-	
-}
 
-std::shared_ptr<engine::Mesh> engine::Mesh::CreateCubeMesh() {
-	// 顶点数据：位置(3) + 颜色(3) + 纹理坐标(2) + 法线(3)
-	std::vector<float> vertices{
-		// 正面 (front face) - 法线：(0,0,1)
-		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 0.0f,  1.0f, 1.0f,   0.0f, 0.0f, 1.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f, 1.0f, 0.0f,  0.0f, 1.0f,   0.0f, 0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 1.0f, 0.0f,  0.0f, 0.0f,   0.0f, 0.0f, 1.0f,
-		 0.5f, -0.5f,  0.5f,  0.0f, 0.0f, 1.0f,  1.0f, 0.0f,   0.0f, 0.0f, 1.0f,
-
-		 // 顶面 (top face) - 法线：(0,1,0)
-		  0.5f,  0.5f, -0.5f,  1.0f, 0.0f, 0.0f,  1.0f, 1.0f,   0.0f, 1.0f, 0.0f,
-		 -0.5f,  0.5f, -0.5f,  0.0f, 1.0f, 0.0f,  0.0f, 1.0f,   0.0f, 1.0f, 0.0f,
-		 -0.5f,  0.5f,  0.5f,  0.0f, 1.0f, 0.0f,  0.0f, 0.0f,   0.0f, 1.0f, 0.0f,
-		  0.5f,  0.5f,  0.5f,  0.0f, 0.0f, 1.0f,  1.0f, 0.0f,   0.0f, 1.0f, 0.0f,
-
-		  // 背面 (back face) - 法线：(0,0,-1)
-		   0.5f, -0.5f, -0.5f,  1.0f, 0.0f, 0.0f,  1.0f, 0.0f,   0.0f, 0.0f, -1.0f,
-		  -0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 0.0f,  0.0f, 0.0f,   0.0f, 0.0f, -1.0f,
-		  -0.5f,  0.5f, -0.5f,  0.0f, 1.0f, 0.0f,  0.0f, 1.0f,   0.0f, 0.0f, -1.0f,
-		   0.5f,  0.5f, -0.5f,  0.0f, 0.0f, 1.0f,  1.0f, 1.0f,   0.0f, 0.0f, -1.0f,
-
-		   // 底面 (bottom face) - 法线：(0,-1,0)
-			0.5f, -0.5f,  0.5f,  1.0f, 0.0f, 0.0f,  1.0f, 1.0f,   0.0f, -1.0f, 0.0f,
-		   -0.5f, -0.5f,  0.5f,  0.0f, 1.0f, 0.0f,  0.0f, 1.0f,   0.0f, -1.0f, 0.0f,
-		   -0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 0.0f,  0.0f, 0.0f,   0.0f, -1.0f, 0.0f,
-			0.5f, -0.5f, -0.5f,  0.0f, 0.0f, 1.0f,  1.0f, 0.0f,   0.0f, -1.0f, 0.0f,
-
-			// 左面 (left face) - 法线：(-1,0,0)
-			-0.5f,  0.5f, -0.5f,  1.0f, 0.0f, 0.0f,  1.0f, 1.0f,   -1.0f, 0.0f, 0.0f,
-			-0.5f,  0.5f,  0.5f,  0.0f, 1.0f, 0.0f,  0.0f, 1.0f,   -1.0f, 0.0f, 0.0f,
-			-0.5f, -0.5f,  0.5f,  0.0f, 1.0f, 0.0f,  0.0f, 0.0f,   -1.0f, 0.0f, 0.0f,
-			-0.5f, -0.5f, -0.5f,  0.0f, 0.0f, 1.0f,  1.0f, 0.0f,   -1.0f, 0.0f, 0.0f,
-
-			// 右面 (right face) - 法线：(1,0,0)
-			 0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 0.0f,  1.0f, 1.0f,   1.0f, 0.0f, 0.0f,
-			 0.5f,  0.5f, -0.5f,  0.0f, 1.0f, 0.0f,  0.0f, 1.0f,   1.0f, 0.0f, 0.0f,
-			 0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 0.0f,  0.0f, 0.0f,   1.0f, 0.0f, 0.0f,
-			 0.5f, -0.5f,  0.5f,  0.0f, 0.0f, 1.0f,  1.0f, 0.0f,   1.0f, 0.0f, 0.0f
-	};
-
-	std::vector<uint32_t> indices{
-		0, 1, 2,  0, 2, 3,   // 正面
-		4, 5, 6,  4, 6, 7,   // 顶面
-		8, 9,10,  8,10,11,   // 背面
-		12,13,14, 12,14,15,  // 底面
-		16,17,18, 16,18,19,  // 左面
-		20,21,22, 20,22,23   // 右面
-	};
-
-	engine::VertexLayout vertexLayout;
-	// 位置：location 0，3个float，偏移0
-	vertexLayout.elements.push_back({ 0, 3, GL_FLOAT, 0 });
-	// 颜色：location 1，3个float，偏移 3*sizeof(float)
-	vertexLayout.elements.push_back({ 1, 3, GL_FLOAT, 3 * sizeof(float) });
-	// 纹理坐标：location 2，2个float，偏移 6*sizeof(float)
-	vertexLayout.elements.push_back({ 2, 2, GL_FLOAT, 6 * sizeof(float) });
-	// 法线向量：location 3，3个float，偏移 8*sizeof(float)（新增！）
-	vertexLayout.elements.push_back({ 3, 3, GL_FLOAT, 8 * sizeof(float) });
-	// 步长更新：原8个float → 11个float（3+3+2+3）
-	vertexLayout.stride = 11 * sizeof(float);
-
-	vertexLayout.logInfo();
-
-	auto mesh = std::make_shared<engine::Mesh>(vertexLayout, vertices, indices);
-
-	return mesh;
-}
-void engine::Mesh::logInfo()
-{
-	spdlog::info("VAO IS {}, VBO IS {}, EBO IS{},Index count is {},vertex count is {}", m_VAO, m_VBO, m_EBO, m_indexCount, m_vertexCount);
-}
+}//Lo
+#endif//static std::shared_ptr<Mesh> Load(const std::string& filePath);

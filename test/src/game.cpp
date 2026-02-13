@@ -13,6 +13,7 @@
 bool Game::Init()
 {
 	auto& fs = engine::Engine::GetInstance().GetFileSystem();
+	auto& grahphicAPI = engine::Engine::GetInstance().GetGraphicAPI();
 
 	m_currentScene = new engine::Scene();
 	engine::Engine::GetInstance().setCurrentScene(m_currentScene);
@@ -21,18 +22,21 @@ bool Game::Init()
 	camera->AddComponent(cameraComponent);
 	camera->AddComponent(new engine::PlayerControlComponent());
 
-	camera->SetPosition({ 0.0f,0.0f,2.0f });
+	camera->SetPosition({ 0.0f,0.0f,1.0f });
 
 	m_currentScene->SetMainCamera(camera);
 
-    
-    auto material = engine::Material::Load("materials\\break.mat");
+	auto shaderProgram = grahphicAPI.GetDefaultShaderProgram();
+	auto material = std::make_shared<engine::Material>();
+	material->SetShaderProgram(shaderProgram);
+	auto breakTexture = engine::Texture::load("textures\\break.jpg");
+	material->SetParam("baseColorTexture", breakTexture);
 
 	auto mesh = engine::Mesh::CreateCubeMesh();
     auto light = m_currentScene->CreateGameObject("Light");
     auto lightComponent = new engine::LightComponent();
     light->AddComponent(lightComponent);
-    light->SetPosition({ 5.0f,0.0f,0.0f });
+    light->SetPosition({ 5.0f,5.0f,5.0f });
 
     auto cubeA = m_currentScene->CreateGameObject("CubeA");
 	cubeA->AddComponent(new engine::MeshComponent(material, mesh));
@@ -57,7 +61,8 @@ bool Game::Init()
  //   
 	
 	auto duck = engine::GameObject::LoadGLTF("models\\Duck.gltf");
-	duck->SetScale({ 1.0f, 1.0f, 1.0f });
+	duck->SetPosition({ -0.5f, 0.0f, 0.5f });
+	duck->SetParent(camera);
 	spdlog::info("position {},rotation{},scale {}", glm::to_string(duck->GetWorldPosition()), 
 		glm::to_string(duck->GetRotation()),glm::to_string( duck->GetScale()));
 	

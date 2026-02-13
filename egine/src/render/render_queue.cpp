@@ -18,6 +18,7 @@ void engine::RenderQueue::Draw(engine::GraphicAPI& graphicAPI,const CameraData& 
 		shaderProgram->SetUniform("uModel", command.modelMat);
 		shaderProgram->SetUniform("uView", cameraData.viewMat);
 		shaderProgram->SetUniform("uProjection", cameraData.projectionMat);
+		shaderProgram->SetUniform("uCameraPosition", cameraData.position);
 		if (!lights.empty()) {
 			auto& light = lights[0];
 			shaderProgram->SetUniform("uLight.color", light.color);
